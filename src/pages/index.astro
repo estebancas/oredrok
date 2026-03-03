@@ -1,0 +1,527 @@
+---
+import PageLayout from '../components/layout/PageLayout.astro';
+import RPGPanel from '../components/rpg/RPGPanel.svelte';
+---
+
+<PageLayout title="Character Sheet" description="Oredrok the Software Wizard - RPG Character Sheet">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title text-pixel">
+        <span class="hero-title-line">WELCOME,</span>
+        <span class="hero-title-line hero-title-accent">TRAVELER</span>
+      </h1>
+      <p class="hero-subtitle">
+        You have encountered <strong class="text-[var(--color-accent)]">OREDROK</strong>, a legendary Software Wizard
+        who has mastered the arcane arts of modern web development.
+      </p>
+    </div>
+  </section>
+
+  <!-- Missions Grid Section -->
+  <section class="missions-section">
+    <h2 class="section-title text-pixel">GUILD MISSIONS</h2>
+    <div class="quest-grid">
+      <!-- Mission Card 1 -->
+      <div class="quest-card">
+        <div class="quest-card-header">
+          <div class="quest-title-wrapper">
+            <img src="/icons/typescript.svg" alt="" class="quest-icon pixel-art" />
+            <h3 class="text-pixel text-sm">Senior TS Engineer</h3>
+          </div>
+          <span class="rank-badge text-pixel text-xs">RANK B</span>
+        </div>
+        <div class="quest-card-body">
+          <p class="quest-teaser text-sm">Led party through legacy codebases, vanquishing technical debt with modern TypeScript patterns</p>
+          <p class="quest-company text-pixel text-xs mt-4">Tech Corp</p>
+          <div class="quest-meta">
+            <span class="quest-date text-xs">2022-2024</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mission Card 2 -->
+      <div class="quest-card">
+        <div class="quest-card-header">
+          <div class="quest-title-wrapper">
+            <img src="/icons/nodejs.svg" alt="" class="quest-icon pixel-art" />
+            <h3 class="text-pixel text-sm">Full-Stack Node Dev</h3>
+          </div>
+          <span class="rank-badge text-pixel text-xs">RANK B</span>
+        </div>
+        <div class="quest-card-body">
+          <p class="quest-teaser text-sm">Built scalable REST APIs and real-time applications. Mastered database optimization and serverless deployments</p>
+          <p class="quest-company text-pixel text-xs mt-4">Startup Inc</p>
+          <div class="quest-meta">
+            <span class="quest-date text-xs">2020-2022</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expeditions Grid Section -->
+  <section class="expeditions-section">
+    <h2 class="section-title text-pixel">SOLO EXPEDITIONS</h2>
+    <div class="quest-grid">
+      <!-- Expedition Card 1 -->
+      <div class="quest-card expedition-card">
+        <div class="quest-card-header expedition-header">
+          <div class="quest-title-wrapper">
+            <img src="/icons/tool.svg" alt="" class="quest-icon pixel-art" />
+            <h3 class="text-pixel text-sm">RPG Portfolio</h3>
+          </div>
+          <span class="type-badge text-pixel text-xs">APP</span>
+        </div>
+        <div class="quest-card-body">
+          <p class="quest-teaser text-sm">Final Fantasy Tactics-inspired portfolio with GSAP animations and Svelte 5</p>
+          <div class="tech-stack">
+            <img src="/icons/typescript.svg" alt="TypeScript" class="tech-icon pixel-art" />
+            <img src="/icons/tool.svg" alt="Svelte" class="tech-icon pixel-art" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Expedition Card 2 -->
+      <div class="quest-card expedition-card">
+        <div class="quest-card-header expedition-header">
+          <div class="quest-title-wrapper">
+            <img src="/icons/tool.svg" alt="" class="quest-icon pixel-art" />
+            <h3 class="text-pixel text-sm">Animation Library</h3>
+          </div>
+          <span class="type-badge text-pixel text-xs">TOOL</span>
+        </div>
+        <div class="quest-card-body">
+          <p class="quest-teaser text-sm">Reusable GSAP animation utilities for modern web projects</p>
+          <div class="tech-stack">
+            <img src="/icons/javascript.svg" alt="JavaScript" class="tech-icon pixel-art" />
+            <img src="/icons/typescript.svg" alt="TypeScript" class="tech-icon pixel-art" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bio Section -->
+  <section class="about-section">
+    <RPGPanel title="QUEST LOG - EXPERIENCE" variant="default" padding="lg" animated={true} client:visible>
+      <div class="quest-log-content">
+        <h3 class="text-pixel text-lg text-[var(--color-accent)] mb-4">RECENT ADVENTURES</h3>
+
+        <div class="quest-entry">
+          <div class="quest-header">
+            <span class="quest-rank text-pixel">RANK B</span>
+            <span class="quest-name">Senior TypeScript Engineer</span>
+          </div>
+          <p class="quest-description">
+            Led a party of engineers through treacherous legacy codebases, vanquishing technical debt
+            and implementing modern TypeScript patterns. Successfully migrated three major systems
+            to microservices architecture.
+          </p>
+          <div class="quest-rewards">
+            <span class="reward-badge">+50 Architecture XP</span>
+            <span class="reward-badge">+30 Leadership</span>
+            <span class="reward-badge">Unlocked: System Design</span>
+          </div>
+        </div>
+
+        <div class="quest-entry">
+          <div class="quest-header">
+            <span class="quest-rank text-pixel">RANK B</span>
+            <span class="quest-name">Full-Stack Node.js Developer</span>
+          </div>
+          <p class="quest-description">
+            Embarked on a quest to build scalable REST APIs and real-time applications. Mastered
+            the arts of database optimization, authentication, and serverless deployments.
+          </p>
+          <div class="quest-rewards">
+            <span class="reward-badge">+40 Backend XP</span>
+            <span class="reward-badge">+25 Database</span>
+            <span class="reward-badge">Unlocked: Microservices</span>
+          </div>
+        </div>
+      </div>
+    </RPGPanel>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="cta-section">
+    <RPGPanel title="NOTICE" variant="gold" padding="lg" animated={true} client:visible>
+      <div class="cta-content">
+        <p class="text-lg mb-4">
+          ⚔️ Seeking new quests and adventures in the realm of software development?
+        </p>
+        <p class="text-sm text-[var(--color-text-muted)] mb-6">
+          The wizard is available for hire. Send a raven with your quest details.
+        </p>
+        <a href="/contact" class="cta-button text-pixel">
+          SEND A RAVEN
+          <span class="button-arrow">→</span>
+        </a>
+      </div>
+    </RPGPanel>
+  </section>
+</PageLayout>
+
+<style>
+  /* Hero Section */
+  .hero-section {
+    margin-bottom: var(--spacing-rpg-2xl);
+    animation: fadeInUp 1s ease-out;
+  }
+
+  .hero-content {
+    padding: var(--spacing-rpg-2xl) 0;
+  }
+
+  .hero-title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--spacing-rpg-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-rpg-sm);
+  }
+
+  .hero-title-line {
+    display: block;
+    animation: slideInFromLeft 0.8s ease-out;
+  }
+
+  .hero-title-line:nth-child(2) {
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+
+  .hero-title-accent {
+    color: var(--color-accent);
+    text-shadow: 0 0 20px rgba(245, 166, 35, 0.5);
+  }
+
+  .hero-subtitle {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
+    color: var(--color-text-muted);
+    max-width: 600px;
+    animation: fadeIn 1s ease-out 0.4s;
+    animation-fill-mode: forwards;
+    opacity: 0;
+  }
+
+  /* Sections */
+  .missions-section,
+  .expeditions-section,
+  .about-section,
+  .cta-section {
+    margin-bottom: var(--spacing-rpg-2xl);
+  }
+
+  .section-title {
+    font-size: var(--font-size-xl);
+    color: var(--color-accent);
+    margin-bottom: var(--spacing-rpg-lg);
+    padding-bottom: var(--spacing-rpg-sm);
+    border-bottom: var(--border-rpg-thin) solid var(--color-border);
+  }
+
+  /* Quest Grid */
+  .quest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-rpg-lg);
+  }
+
+  /* Quest Cards */
+  .quest-card {
+    background: linear-gradient(135deg, var(--color-panel) 0%, #0a1220 100%);
+    border: var(--border-rpg-thick) solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all var(--duration-normal) var(--ease-out);
+    cursor: pointer;
+    animation: cardReveal 0.6s ease-out;
+    animation-fill-mode: both;
+  }
+
+  .quest-card:nth-child(1) { animation-delay: 0.1s; }
+  .quest-card:nth-child(2) { animation-delay: 0.2s; }
+  .quest-card:nth-child(3) { animation-delay: 0.3s; }
+  .quest-card:nth-child(4) { animation-delay: 0.4s; }
+
+  .quest-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .quest-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-rpg-sm) var(--spacing-rpg-md);
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+  }
+
+  .expedition-header {
+    background-color: var(--color-active);
+  }
+
+  .quest-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-rpg-sm);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .quest-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .quest-title-wrapper h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .rank-badge,
+  .type-badge {
+    background-color: var(--color-bg);
+    color: var(--color-accent);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+  }
+
+  .type-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--color-text);
+  }
+
+  .quest-card-body {
+    padding: var(--spacing-rpg-md);
+  }
+
+  .quest-teaser {
+    line-height: var(--line-height-relaxed);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-rpg-sm);
+  }
+
+  .quest-company {
+    color: var(--color-text-muted);
+    margin-top: var(--spacing-rpg-md);
+  }
+
+  .quest-meta {
+    margin-top: var(--spacing-rpg-sm);
+    padding-top: var(--spacing-rpg-sm);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .quest-date {
+    color: var(--color-text-muted);
+  }
+
+  .tech-stack {
+    display: flex;
+    gap: var(--spacing-rpg-sm);
+    margin-top: var(--spacing-rpg-md);
+    padding-top: var(--spacing-rpg-sm);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .tech-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .tech-icon:hover {
+    transform: scale(1.2) rotate(5deg);
+  }
+
+  /* Quest Log */
+  .quest-log-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-rpg-lg);
+  }
+
+  .quest-entry {
+    padding: var(--spacing-rpg-md);
+    border-left: var(--border-rpg-thick) solid var(--color-accent);
+    background: rgba(15, 26, 46, 0.3);
+    border-radius: var(--radius-sm);
+    transition: all var(--duration-normal) var(--ease-out);
+  }
+
+  .quest-entry:hover {
+    background: rgba(15, 26, 46, 0.6);
+    transform: translateX(8px);
+    border-color: var(--color-active);
+  }
+
+  .quest-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-rpg-md);
+    margin-bottom: var(--spacing-rpg-sm);
+  }
+
+  .quest-rank {
+    background-color: var(--color-active);
+    color: var(--color-text);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+  }
+
+  .quest-name {
+    font-family: var(--font-pixel);
+    font-size: var(--font-size-sm);
+    color: var(--color-accent);
+  }
+
+  .quest-description {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--spacing-rpg-md);
+    color: var(--color-text);
+  }
+
+  .quest-rewards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-rpg-sm);
+  }
+
+  .reward-badge {
+    font-family: var(--font-pixel);
+    font-size: var(--font-size-xs);
+    background: rgba(245, 166, 35, 0.2);
+    color: var(--color-accent);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-accent);
+  }
+
+  /* CTA */
+  .cta-content {
+    text-align: center;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-rpg-sm);
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-active) 100%);
+    color: var(--color-bg);
+    padding: var(--spacing-rpg-md) var(--spacing-rpg-lg);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    transition: all var(--duration-normal) var(--ease-out);
+    border: var(--border-rpg-thin) solid transparent;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--color-active) 0%, var(--color-accent) 100%);
+    opacity: 0;
+    transition: opacity var(--duration-normal) var(--ease-out);
+  }
+
+  .cta-button:hover::before {
+    opacity: 1;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: var(--shadow-glow-active);
+  }
+
+  .cta-button:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .button-arrow {
+    position: relative;
+    z-index: 1;
+    transition: transform var(--duration-normal) var(--ease-out);
+  }
+
+  .cta-button:hover .button-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInFromLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes cardReveal {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .quest-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-title {
+      font-size: 1.5rem;
+    }
+
+    .quest-entry:hover {
+      transform: translateX(4px);
+    }
+
+    .quest-card:hover {
+      transform: translateY(-4px);
+    }
+  }
+</style>

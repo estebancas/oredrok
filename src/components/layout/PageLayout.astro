@@ -1,0 +1,149 @@
+---
+import LeftPanel from './LeftPanel.svelte';
+import '../../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  currentPath?: string;
+}
+
+const {
+  title,
+  description = "Oredrok - Software Wizard Portfolio",
+  currentPath = Astro.url.pathname
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | Oredrok</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <!-- Page transition overlay -->
+    <div class="page-transition-overlay"></div>
+
+    <!-- Main layout container -->
+    <div class="layout-container">
+      <!-- Fixed Left Panel -->
+      <aside class="left-panel">
+        <LeftPanel client:load currentPath={currentPath} />
+      </aside>
+
+      <!-- Scrollable Right Content -->
+      <main class="right-content">
+        <slot />
+      </main>
+    </div>
+
+    <!-- Initialize Lenis smooth scroll -->
+    <script>
+      import { initLenis } from '../../lib/lenis';
+
+      if (typeof window !== 'undefined') {
+        document.addEventListener('DOMContentLoaded', () => {
+          initLenis();
+        });
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .layout-container {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .left-panel {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 320px;
+    height: 100vh;
+    background-color: var(--color-bg);
+    border-right: var(--border-rpg-thick) solid var(--color-border);
+    z-index: var(--z-panel);
+    overflow-y: auto;
+    padding: var(--spacing-rpg-lg);
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .left-panel::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .left-panel::-webkit-scrollbar-track {
+    background-color: var(--color-bg);
+  }
+
+  .left-panel::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 3px;
+  }
+
+  .left-panel::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-accent);
+  }
+
+  .right-content {
+    margin-left: 320px; /* Match left panel width */
+    flex: 1;
+    padding: var(--spacing-rpg-2xl);
+    min-height: 100vh;
+    animation: contentFadeIn 0.8s ease-out;
+  }
+
+  @keyframes contentFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .left-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: auto;
+      max-height: 80px;
+      border-right: none;
+      border-bottom: var(--border-rpg-thick) solid var(--color-border);
+      padding: var(--spacing-rpg-md);
+      overflow: visible;
+    }
+
+    .right-content {
+      margin-left: 0;
+      margin-top: 80px;
+      padding: var(--spacing-rpg-md);
+    }
+  }
+
+  /* Tablet responsive */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .left-panel {
+      width: 280px;
+    }
+
+    .right-content {
+      margin-left: 280px;
+      padding: var(--spacing-rpg-lg);
+    }
+  }
+</style>

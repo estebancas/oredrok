@@ -1,0 +1,24 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Wizard hat -->
+  <path d="M40 45 L64 10 L88 45 Z" fill="#f5a623"/>
+  <ellipse cx="64" cy="45" rx="28" ry="6" fill="#ff8c00"/>
+
+  <!-- Face -->
+  <circle cx="64" cy="64" r="24" fill="#e8e8e8"/>
+
+  <!-- Eyes -->
+  <rect x="54" y="58" width="6" height="6" fill="#080d1a"/>
+  <rect x="68" y="58" width="6" height="6" fill="#080d1a"/>
+
+  <!-- Beard -->
+  <path d="M48 72 L48 88 L52 92 L60 94 L68 94 L76 92 L80 88 L80 72 Z" fill="#7a9abf"/>
+
+  <!-- Robe -->
+  <path d="M40 88 L40 120 L88 120 L88 88 Z" fill="#1e3a5f"/>
+  <path d="M60 88 L60 120 L68 120 L68 88 Z" fill="#f5a623"/>
+
+  <!-- Stars on hat -->
+  <circle cx="56" cy="30" r="2" fill="#fff"/>
+  <circle cx="64" cy="20" r="2" fill="#fff"/>
+  <circle cx="72" cy="30" r="2" fill="#fff"/>
+</svg>
