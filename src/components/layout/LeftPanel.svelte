@@ -100,14 +100,14 @@
   .left-panel-container {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-rpg-lg);
+    gap: var(--spacing-lg);
     height: 100%;
   }
 
   .avatar-section {
     display: flex;
     justify-content: center;
-    padding: var(--spacing-rpg-md) 0;
+    padding: var(--spacing-md) 0;
   }
 
   .wizard-info {
@@ -115,50 +115,18 @@
     flex-direction: column;
   }
 
-  .info-panel,
-  .menu-panel,
-  .stats-panel,
-  .equipment-panel {
-    animation: panelSlideIn 0.6s ease-out;
-  }
-
-  .stats-panel {
-    animation-delay: 0.2s;
-    opacity: 0;
-    animation-fill-mode: forwards;
-  }
-
-  .equipment-panel {
-    animation-delay: 0.3s;
-    opacity: 0;
-    animation-fill-mode: forwards;
-  }
-
-  .menu-panel {
-    animation-delay: 0.4s;
-    opacity: 0;
-    animation-fill-mode: forwards;
-  }
-
   /* Compact Stats */
   .compact-stats {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-rpg-sm);
+    gap: var(--spacing-sm);
   }
 
   .stat-item {
     display: flex;
     align-items: center;
-    gap: var(--spacing-rpg-sm);
-    padding: var(--spacing-rpg-xs);
-    background: rgba(15, 26, 46, 0.3);
-    border-radius: var(--radius-sm);
-    transition: background var(--duration-fast) var(--ease-out);
-  }
-
-  .stat-item:hover {
-    background: rgba(15, 26, 46, 0.6);
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs);
   }
 
   .stat-icon {
@@ -176,9 +144,6 @@
   }
 
   .stat-name {
-    font-size: 8px;
-    line-height: 1.2;
-    color: var(--color-text);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -186,23 +151,15 @@
 
   .stat-bar-mini {
     height: 6px;
-    background: var(--color-border);
-    border-radius: 2px;
     overflow: hidden;
     position: relative;
   }
 
   .stat-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-active));
-    border-radius: 2px;
-    transition: width 1s ease-out;
-    box-shadow: 0 0 6px rgba(245, 166, 35, 0.6);
   }
 
   .stat-percent {
-    font-size: 8px;
-    color: var(--color-accent);
     flex-shrink: 0;
   }
 
@@ -210,35 +167,20 @@
   .compact-equipment {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-rpg-xs);
+    gap: var(--spacing-xs);
   }
 
   .equipment-item {
     display: flex;
     align-items: center;
-    gap: var(--spacing-rpg-sm);
-    padding: var(--spacing-rpg-xs);
-    background: rgba(15, 26, 46, 0.3);
-    border-radius: var(--radius-sm);
-    border: 1px solid transparent;
-    transition: all var(--duration-fast) var(--ease-out);
-  }
-
-  .equipment-item:hover {
-    background: rgba(15, 26, 46, 0.6);
-    border-color: var(--color-accent);
-    transform: translateX(2px);
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs);
   }
 
   .equipment-icon {
     width: 20px;
     height: 20px;
     flex-shrink: 0;
-    transition: transform var(--duration-fast) var(--ease-out);
-  }
-
-  .equipment-item:hover .equipment-icon {
-    transform: rotate(5deg);
   }
 
   .equipment-info {
@@ -249,12 +191,7 @@
     min-width: 0;
   }
 
-  .equipment-slot {
-    line-height: 1.2;
-  }
-
   .equipment-name {
-    line-height: 1.2;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -262,8 +199,7 @@
 
   .status-section {
     margin-top: auto;
-    padding: var(--spacing-rpg-md);
-    border-top: var(--border-rpg-thin) solid var(--color-border);
+    padding: var(--spacing-md);
   }
 
   .status-item {
@@ -272,37 +208,12 @@
     align-items: center;
   }
 
-  .status-value {
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes panelSlideIn {
-    from {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.6;
-    }
-  }
-
   /* Mobile Responsive */
   @media (max-width: 768px) {
     .left-panel-container {
       flex-direction: row;
       align-items: center;
-      gap: var(--spacing-rpg-md);
+      gap: var(--spacing-md);
       height: auto;
     }
 

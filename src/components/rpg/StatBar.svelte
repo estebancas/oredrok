@@ -95,37 +95,21 @@
   .stat-bar {
     display: flex;
     align-items: center;
-    gap: var(--spacing-rpg-md);
-    margin-bottom: var(--spacing-rpg-md);
-    padding: var(--spacing-rpg-sm);
-    border-radius: var(--radius-sm);
-    background: rgba(15, 26, 46, 0.3);
-    transition: background var(--duration-normal) var(--ease-out);
-  }
-
-  .stat-bar:hover {
-    background: rgba(15, 26, 46, 0.6);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-sm);
   }
 
   .stat-label-wrapper {
     display: flex;
     align-items: center;
-    gap: var(--spacing-rpg-sm);
+    gap: var(--spacing-sm);
     min-width: 180px;
   }
 
   .stat-icon {
     width: 24px;
     height: 24px;
-    transition: transform var(--duration-normal) var(--ease-out);
-  }
-
-  .stat-bar:hover .stat-icon {
-    transform: rotate(5deg) scale(1.1);
-  }
-
-  .stat-label {
-    color: var(--color-text);
   }
 
   .stat-bar-container {
@@ -137,52 +121,13 @@
   .stat-segment {
     flex: 1;
     height: 24px;
-    border: 2px solid var(--color-bg);
-    border-radius: 2px;
-    transition: all var(--duration-fast) var(--ease-out);
     position: relative;
     overflow: hidden;
-  }
-
-  .stat-segment.filled {
-    box-shadow: 0 0 8px rgba(245, 166, 35, 0.5);
-  }
-
-  .stat-segment.filled::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.3),
-      transparent
-    );
-    animation: shine 2s ease-in-out infinite;
-  }
-
-  .stat-segment:hover {
-    transform: scale(1.1);
-    z-index: 1;
   }
 
   .stat-value {
     min-width: 50px;
     text-align: right;
-    color: var(--color-accent);
-    font-weight: bold;
-  }
-
-  @keyframes shine {
-    0% {
-      left: -100%;
-    }
-    100% {
-      left: 200%;
-    }
   }
 
   /* Mobile responsive */
@@ -190,7 +135,7 @@
     .stat-bar {
       flex-direction: column;
       align-items: flex-start;
-      gap: var(--spacing-rpg-sm);
+      gap: var(--spacing-sm);
     }
 
     .stat-label-wrapper {

@@ -111,41 +111,14 @@
 
 <style>
   .pixel-wizard {
-    /* Creates a soft shadow around the pixel art */
-    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
+    /* no styling - layout only */
   }
 
   .wizard-character {
-    /* Pin origin to the bottom center so "breathing" scales upward smoothly */
     transform-origin: 50% 100%;
-    animation: breathe 4s ease-in-out infinite;
   }
 
   .wizard-flame {
-    /* Pin origin to the base of the fire to flicker left/right naturally */
     transform-origin: 22.5px 4.5px;
-    animation: flickerScale 0.15s ease-in-out infinite alternate;
-  }
-
-  .flame-core {
-    /* A fast color pulse specifically for the bright center of the flame */
-    animation: pulseCore 0.3s ease-in-out infinite alternate;
-  }
-
-  /* Keyframes */
-  @keyframes breathe {
-    0%, 100% { transform: scaleY(1); }
-    50% { transform: scaleY(1.03); }
-  }
-
-  @keyframes flickerScale {
-    0% { transform: scale(1) rotate(-2deg); }
-    50% { transform: scale(1.05) rotate(2deg); }
-    100% { transform: scale(0.95) rotate(0deg); }
-  }
-
-  @keyframes pulseCore {
-    0% { fill: #FBBF24; }
-    100% { fill: #FEF08A; }
   }
 </style>

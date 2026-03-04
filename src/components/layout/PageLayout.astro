@@ -68,11 +68,10 @@ const {
     top: 0;
     width: 320px;
     height: 100vh;
-    background-color: var(--color-bg);
-    border-right: var(--border-rpg-thick) solid var(--color-border);
+    border-right: var(--border-thick) solid;
     z-index: var(--z-panel);
     overflow-y: auto;
-    padding: var(--spacing-rpg-lg);
+    padding: var(--spacing-lg);
   }
 
   /* Hide scrollbar but keep functionality */
@@ -81,35 +80,18 @@ const {
   }
 
   .left-panel::-webkit-scrollbar-track {
-    background-color: var(--color-bg);
+    /* no styling */
   }
 
   .left-panel::-webkit-scrollbar-thumb {
-    background-color: var(--color-border);
     border-radius: 3px;
-  }
-
-  .left-panel::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-accent);
   }
 
   .right-content {
     margin-left: 320px; /* Match left panel width */
     flex: 1;
-    padding: var(--spacing-rpg-2xl);
+    padding: var(--spacing-2xl);
     min-height: 100vh;
-    animation: contentFadeIn 0.8s ease-out;
-  }
-
-  @keyframes contentFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 
   /* Mobile responsive */
@@ -123,15 +105,15 @@ const {
       height: auto;
       max-height: 80px;
       border-right: none;
-      border-bottom: var(--border-rpg-thick) solid var(--color-border);
-      padding: var(--spacing-rpg-md);
+      border-bottom: var(--border-thick) solid;
+      padding: var(--spacing-md);
       overflow: visible;
     }
 
     .right-content {
       margin-left: 0;
       margin-top: 80px;
-      padding: var(--spacing-rpg-md);
+      padding: var(--spacing-md);
     }
   }
 
@@ -143,7 +125,7 @@ const {
 
     .right-content {
       margin-left: 280px;
-      padding: var(--spacing-rpg-lg);
+      padding: var(--spacing-lg);
     }
   }
 </style>
