@@ -1,9 +1,9 @@
+@import "./fonts.css";
+
 /* Tailwind v3 imports */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import "./fonts.css";
 
 :root {
   /* ============================================

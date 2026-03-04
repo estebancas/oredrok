@@ -1,20 +1,23 @@
 ---
 import PageLayout from '../components/layout/PageLayout.astro';
 import RPGPanel from '../components/rpg/RPGPanel.svelte';
+import WizardAvatar from '../components/rpg/WizardAvatar.svelte';
 ---
 
 <PageLayout title="Character Sheet" description="Oredrok the Software Wizard - RPG Character Sheet">
   <!-- Hero Section -->
   <section class="hero-section">
-    <div class="hero-content">
-      <h1 class="hero-title text-pixel">
-        <span class="hero-title-line">WELCOME,</span>
-        <span class="hero-title-line hero-title-accent">TRAVELER</span>
-      </h1>
-      <p class="hero-subtitle">
-        You have encountered <strong class="text-[var(--color-accent)]">OREDROK</strong>, a legendary Software Wizard
-        who has mastered the arcane arts of modern web development.
-      </p>
+    <div class="hero-content flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
+      <div class="flex-1">
+        <h1 class="hero-title text-pixel">
+          <span class="hero-title-line">WELCOME,</span>
+          <span class="hero-title-line hero-title-accent">TRAVELER</span>
+        </h1>
+        <p class="hero-subtitle">
+          You have encountered <strong class="text-[var(--color-accent)]">OREDROK</strong>, a legendary Software Wizard
+          who has mastered the arcane arts of modern web development.
+        </p>
+      </div>
     </div>
   </section>
 
