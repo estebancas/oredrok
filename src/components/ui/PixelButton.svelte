@@ -20,7 +20,7 @@
     class?: string;
   } = $props();
 
-  let buttonRef: HTMLElement;
+  let buttonRef: HTMLElement = $state()!
 
   const variantClasses = {
     blue: 'bg-accent-blue border-accent-blue-dark text-white hover:bg-accent-blue-dark pixel-shadow-blue',

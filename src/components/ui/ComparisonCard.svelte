@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import PixelChevron from './PixelChevron.svelte';
 
   interface ComparisonItem {
     text: string;
@@ -68,10 +69,10 @@
   <!-- Left Card (Problems/Comparison) -->
   <div
     bind:this={leftCardRef}
-    class="comparison-card left-card pixel-border-red"
+    class="comparison-card left-card pixel-border-blue"
   >
     <div class="card-header">
-      <h3 class="pixel-label text-accent-red text-sm">{leftTitle}</h3>
+      <h3 class="pixel-label text-accent-blue text-sm">{leftTitle}</h3>
       {#if leftSubtitle}
         <p class="pixel-body text-text-secondary text-lg mt-2">{leftSubtitle}</p>
       {/if}
@@ -80,8 +81,12 @@
     <ul class="card-items">
       {#each leftItems as item}
         <li class="item">
-          <span class="icon text-accent-red">
-            {item.icon || '❌'}
+          <span class="icon text-accent-blue">
+            {#if item.icon === '✅'}
+              <PixelChevron />
+            {:else}
+              {item.icon || '❌'}
+            {/if}
           </span>
           <span class="pixel-body text-text-secondary">{item.text}</span>
         </li>
@@ -105,7 +110,11 @@
       {#each rightItems as item}
         <li class="item">
           <span class="icon text-accent-green">
-            {item.icon || '✅'}
+            {#if !item.icon || item.icon === '✅'}
+              <PixelChevron />
+            {:else}
+              {item.icon}
+            {/if}
           </span>
           <span class="pixel-body text-text-primary">{item.text}</span>
         </li>
@@ -131,10 +140,10 @@
   }
 
   .left-card {
-    border-color: var(--accent-red);
+    border-color: var(--accent-blue);
     box-shadow:
-      0 0 20px rgba(239, 68, 68, 0.2),
-      8px 8px 0 var(--accent-red-dark);
+      0 0 20px rgba(59, 130, 246, 0.2),
+      8px 8px 0 var(--accent-blue-dark);
   }
 
   .right-card {

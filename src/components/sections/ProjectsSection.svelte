@@ -1,11 +1,15 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { fade, fly } from 'svelte/transition';
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   import PixelCard from '../ui/PixelCard.svelte';
+  import PixelButton from '../ui/PixelButton.svelte';
 
   let sectionRef: HTMLElement;
   let headingRef: HTMLHeadingElement;
+  let visibleCount = $state(3);
+  let showAll = $state(false);
 
   // Sample projects - you can customize these
   const projects = [
@@ -32,8 +36,45 @@
       tags: ['Node.js', 'Express', 'AWS', 'Redis'],
       href: '#',
       cta: 'Explore API'
+    },
+    {
+      title: 'Real-time Chat Application',
+      description: 'Messaging platform with WebSocket support, message history, user presence, and file sharing capabilities.',
+      image: '/images/project-4.png', // Placeholder
+      tags: ['WebSockets', 'Redis', 'React', 'Socket.io'],
+      href: '#',
+      cta: 'View Demo'
+    },
+    {
+      title: 'DevOps Dashboard',
+      description: 'Infrastructure monitoring dashboard with real-time metrics, automated alerts, and deployment tracking.',
+      image: '/images/project-5.png', // Placeholder
+      tags: ['Docker', 'Kubernetes', 'Grafana', 'Prometheus'],
+      href: '#',
+      cta: 'See Platform'
+    },
+    {
+      title: 'Payment Gateway Integration',
+      description: 'Secure payment processing system with multi-currency support, fraud detection, and transaction analytics.',
+      image: '/images/project-6.png', // Placeholder
+      tags: ['Stripe', 'Node.js', 'TypeScript', 'PostgreSQL'],
+      href: '#',
+      cta: 'View Integration'
+    },
+    {
+      title: 'AI-Powered Content CMS',
+      description: 'Content management system with AI-assisted writing, SEO optimization, and automated content generation.',
+      image: '/images/project-7.png', // Placeholder
+      tags: ['Next.js', 'OpenAI', 'PostgreSQL', 'TailwindCSS'],
+      href: '#',
+      cta: 'Explore CMS'
     }
   ];
+
+  const toggleShowMore = () => {
+    showAll = !showAll;
+    visibleCount = showAll ? projects.length : 3;
+  };
 
   onMount(() => {
     if (typeof window !== 'undefined') {
@@ -86,8 +127,11 @@
   </p>
 
   <div class="projects-grid">
-    {#each projects as project}
-      <div class="project-card">
+    {#each projects.slice(0, visibleCount) as project, index}
+      <div
+        class="project-card"
+        in:fly={{ y: 30, duration: 600, delay: index > 2 ? (index - 3) * 100 : 0 }}
+      >
         <PixelCard
           title={project.title}
           description={project.description}
@@ -99,6 +143,19 @@
       </div>
     {/each}
   </div>
+
+  <!-- Show More/Less Button -->
+  {#if projects.length > 3}
+    <div class="show-more-container">
+      <PixelButton
+        variant="blue"
+        size="lg"
+        onclick={toggleShowMore}
+      >
+        {showAll ? 'SHOW LESS ◄' : 'SHOW MORE PROJECTS ►'}
+      </PixelButton>
+    </div>
+  {/if}
 
   <!-- Pixel divider -->
   <div class="pixel-divider"></div>
@@ -146,6 +203,13 @@
 
   .project-card {
     /* Removed opacity: 0 to ensure cards are visible by default */
+  }
+
+  .show-more-container {
+    margin-top: var(--spacing-3xl);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .projects-footer {

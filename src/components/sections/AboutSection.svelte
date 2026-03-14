@@ -9,21 +9,21 @@
   let headingRef: HTMLHeadingElement;
 
   const leftItems = [
-    { text: 'Generic solutions that don\'t fit your needs', icon: '❌' },
-    { text: 'Slow delivery and missed deadlines', icon: '❌' },
-    { text: 'Poor communication and updates', icon: '❌' },
-    { text: 'Outdated technology stack', icon: '❌' },
-    { text: 'High hourly rates with hidden costs', icon: '❌' },
-    { text: 'Limited availability and flexibility', icon: '❌' }
+    { text: 'Full-stack web application development', icon: '✅' },
+    { text: 'Modern frontend with React/Svelte', icon: '✅' },
+    { text: 'RESTful & GraphQL API design', icon: '✅' },
+    { text: 'Database design & optimization', icon: '✅' },
+    { text: 'Cloud deployment (AWS, Vercel)', icon: '✅' },
+    { text: 'Performance optimization & SEO', icon: '✅' }
   ];
 
   const rightItems = [
-    { text: 'Custom-built applications tailored to you', icon: '✅' },
-    { text: 'Rapid development with agile sprints', icon: '✅' },
-    { text: 'Daily updates and transparent workflow', icon: '✅' },
-    { text: 'Modern stack: TypeScript, Node.js, Svelte', icon: '✅' },
-    { text: 'Fair pricing with no surprises', icon: '✅' },
-    { text: 'Full-time availability when you need me', icon: '✅' }
+    { text: 'E-commerce & payment integration', icon: '✅' },
+    { text: 'Real-time features with WebSockets', icon: '✅' },
+    { text: 'Authentication & authorization', icon: '✅' },
+    { text: 'Code review & technical consulting', icon: '✅' },
+    { text: 'Legacy code modernization', icon: '✅' },
+    { text: 'CI/CD pipeline setup', icon: '✅' }
   ];
 
   const techStack = [
@@ -80,19 +80,19 @@
     bind:this={headingRef}
     class="section-title pixel-header"
   >
-    WHY CHOOSE ME?
+    SERVICES
   </h2>
 
   <p class="section-subtitle pixel-body">
-    I offer you a better solution
+    What I can build for you
   </p>
 
-  <!-- Comparison Cards -->
+  <!-- Services Cards -->
   <ComparisonCard
-    leftTitle="Other Developers"
-    rightTitle="Oredrok (Me)"
-    leftSubtitle="$120k-180k/year + overhead"
-    rightSubtitle="$40-90/hour, flexible"
+    leftTitle="Development"
+    rightTitle="Consulting & Support"
+    leftSubtitle="Build from scratch or enhance existing apps"
+    rightSubtitle="Technical guidance and code improvements"
     {leftItems}
     {rightItems}
   />
@@ -122,7 +122,7 @@
   <!-- CTA -->
   <div class="about-cta">
     <PixelButton variant="green" size="lg" href="#contact">
-      Calculate My Team's Cost ►
+      Let's Work Together ►
     </PixelButton>
   </div>
 </section>
