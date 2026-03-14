@@ -11,8 +11,8 @@
   }
 
   let {
-    src = '/avatar-placeholder.svg',
-    alt = 'Avatar',
+    src = '/wizard-avatar.jpg',
+    alt = 'Oredrok - Software Wizard',
     size = 128,
     enableFloat = true,
     class: className = ''
@@ -49,6 +49,9 @@
   .avatar-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
   }
 </style>
