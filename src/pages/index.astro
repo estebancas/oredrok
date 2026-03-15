@@ -1,9 +1,23 @@
 ---
+import { getCollection } from 'astro:content';
 import PageLayout from '../components/layout/PageLayout.astro';
 import HeroSection from '../components/sections/HeroSection.svelte';
 import AboutSection from '../components/sections/AboutSection.svelte';
 import ProjectsSection from '../components/sections/ProjectsSection.svelte';
 import ContactSection from '../components/sections/ContactSection.svelte';
+
+// Fetch projects from content collections
+const allProjects = await getCollection('projects');
+const projects = allProjects
+  .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999))
+  .map((project) => ({
+    title: project.data.title,
+    description: project.data.description,
+    image: project.data.image,
+    tags: project.data.tags,
+    href: `/projects/${project.slug}`,
+    cta: project.data.cta,
+  }));
 ---
 
 <PageLayout
@@ -17,7 +31,7 @@ import ContactSection from '../components/sections/ContactSection.svelte';
   <AboutSection client:visible />
 
   <!-- Projects Showcase -->
-  <ProjectsSection client:visible />
+  <ProjectsSection projects={projects} client:visible />
 
   <!-- Contact Form -->
   <ContactSection client:visible />

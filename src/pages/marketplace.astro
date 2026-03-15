@@ -1,0 +1,226 @@
+---
+import PageLayout from '../components/layout/PageLayout.astro';
+import PixelButton from '../components/ui/PixelButton.svelte';
+---
+
+<PageLayout title="Marketplace">
+  <main class="marketplace-page">
+    <div class="marketplace-container">
+      <!-- Header -->
+      <header class="marketplace-header">
+        <h1 class="marketplace-title pixel-header">MARKETPLACE</h1>
+        <p class="marketplace-subtitle pixel-body">
+          Skills, services, and solutions available for hire
+        </p>
+      </header>
+
+      <!-- Coming Soon Section -->
+      <div class="coming-soon">
+        <div class="pixel-box">
+          <h2 class="pixel-label coming-soon-title">Coming Soon</h2>
+          <p class="pixel-body coming-soon-text">
+            This marketplace is currently under construction. Soon you'll be able to browse and hire my services directly, including:
+          </p>
+
+          <div class="skills-preview">
+            <div class="skill-category">
+              <h3 class="pixel-label category-title">Development Services</h3>
+              <ul class="skill-list pixel-body">
+                <li>Full-stack web application development</li>
+                <li>API design and implementation</li>
+                <li>Frontend development (React, Svelte, Next.js)</li>
+                <li>Backend development (Node.js, Python, TypeScript)</li>
+              </ul>
+            </div>
+
+            <div class="skill-category">
+              <h3 class="pixel-label category-title">Consulting</h3>
+              <ul class="skill-list pixel-body">
+                <li>Technical architecture review</li>
+                <li>Code review and optimization</li>
+                <li>DevOps and deployment strategies</li>
+                <li>Performance optimization</li>
+              </ul>
+            </div>
+
+            <div class="skill-category">
+              <h3 class="pixel-label category-title">Specialized Skills</h3>
+              <ul class="skill-list pixel-body">
+                <li>Payment gateway integration</li>
+                <li>Real-time applications with WebSockets</li>
+                <li>AI/ML integration (OpenAI, LangChain)</li>
+                <li>Cloud infrastructure (AWS, Vercel)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cta-section">
+            <p class="pixel-body cta-text">
+              In the meantime, feel free to reach out directly:
+            </p>
+            <PixelButton
+              variant="green"
+              size="lg"
+              href="/#contact"
+              client:load
+            >
+              Get in Touch ►
+            </PixelButton>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back to Home -->
+      <div class="back-home">
+        <PixelButton
+          variant="outline"
+          size="md"
+          href="/"
+          client:load
+        >
+          ◄ Back to Home
+        </PixelButton>
+      </div>
+    </div>
+  </main>
+</PageLayout>
+
+<style>
+  .marketplace-page {
+    min-height: 100vh;
+    background: var(--bg-primary);
+    padding: var(--spacing-4xl) var(--spacing-lg);
+  }
+
+  .marketplace-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .marketplace-header {
+    text-align: center;
+    margin-bottom: var(--spacing-4xl);
+  }
+
+  .marketplace-title {
+    font-size: clamp(32px, 6vw, 56px);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    text-shadow:
+      3px 3px 0 var(--accent-green),
+      6px 6px 0 var(--bg-secondary);
+  }
+
+  .marketplace-subtitle {
+    font-size: clamp(14px, 2vw, 18px);
+    color: var(--text-secondary);
+  }
+
+  .coming-soon {
+    margin-bottom: var(--spacing-4xl);
+  }
+
+  .pixel-box {
+    background: var(--bg-secondary);
+    border: var(--border-pixel) solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-3xl);
+    box-shadow: 8px 8px 0 var(--accent-blue-dark);
+  }
+
+  .coming-soon-title {
+    font-size: 24px;
+    color: var(--accent-blue);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+  }
+
+  .coming-soon-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-3xl);
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  .skills-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .skill-category {
+    background: var(--bg-primary);
+    border: 2px solid var(--border-pixel);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-lg);
+  }
+
+  .category-title {
+    font-size: 12px;
+    color: var(--accent-green);
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+  }
+
+  .skill-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .skill-list li {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    padding-left: var(--spacing-md);
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .skill-list li::before {
+    content: '►';
+    position: absolute;
+    left: 0;
+    color: var(--accent-blue);
+    font-size: 10px;
+  }
+
+  .cta-section {
+    text-align: center;
+    padding-top: var(--spacing-2xl);
+    border-top: 2px solid var(--border-pixel);
+  }
+
+  .cta-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .back-home {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .marketplace-page {
+      padding: var(--spacing-2xl) var(--spacing-md);
+    }
+
+    .marketplace-title {
+      text-shadow:
+        2px 2px 0 var(--accent-green),
+        4px 4px 0 var(--bg-secondary);
+    }
+
+    .pixel-box {
+      padding: var(--spacing-xl);
+    }
+
+    .skills-preview {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

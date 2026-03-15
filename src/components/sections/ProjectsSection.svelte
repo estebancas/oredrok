@@ -6,70 +6,25 @@
   import PixelCard from '../ui/PixelCard.svelte';
   import PixelButton from '../ui/PixelButton.svelte';
 
-  let sectionRef: HTMLElement;
-  let headingRef: HTMLHeadingElement;
+  interface Project {
+    title: string;
+    description: string;
+    image: string;
+    tags: string[];
+    href: string;
+    cta: string;
+  }
+
+  interface Props {
+    projects?: Project[];
+  }
+
+  let { projects = [] }: Props = $props();
+
+  let sectionRef: HTMLElement = $state()!;
+  let headingRef: HTMLHeadingElement = $state()!;
   let visibleCount = $state(3);
   let showAll = $state(false);
-
-  // Sample projects - you can customize these
-  const projects = [
-    {
-      title: 'E-Commerce Platform',
-      description: 'Full-stack e-commerce solution with real-time inventory, payment processing, and admin dashboard.',
-      image: '/images/project-1.png', // Placeholder
-      tags: ['TypeScript', 'Node.js', 'React', 'PostgreSQL'],
-      href: '#',
-      cta: 'View Case Study'
-    },
-    {
-      title: 'SaaS Dashboard',
-      description: 'Analytics dashboard with real-time data visualization, custom reports, and team collaboration features.',
-      image: '/images/project-2.png', // Placeholder
-      tags: ['Svelte', 'FastAPI', 'WebSockets', 'MongoDB'],
-      href: '#',
-      cta: 'See Live Demo'
-    },
-    {
-      title: 'Mobile App Backend',
-      description: 'Scalable REST API with authentication, push notifications, and third-party integrations.',
-      image: '/images/project-3.png', // Placeholder
-      tags: ['Node.js', 'Express', 'AWS', 'Redis'],
-      href: '#',
-      cta: 'Explore API'
-    },
-    {
-      title: 'Real-time Chat Application',
-      description: 'Messaging platform with WebSocket support, message history, user presence, and file sharing capabilities.',
-      image: '/images/project-4.png', // Placeholder
-      tags: ['WebSockets', 'Redis', 'React', 'Socket.io'],
-      href: '#',
-      cta: 'View Demo'
-    },
-    {
-      title: 'DevOps Dashboard',
-      description: 'Infrastructure monitoring dashboard with real-time metrics, automated alerts, and deployment tracking.',
-      image: '/images/project-5.png', // Placeholder
-      tags: ['Docker', 'Kubernetes', 'Grafana', 'Prometheus'],
-      href: '#',
-      cta: 'See Platform'
-    },
-    {
-      title: 'Payment Gateway Integration',
-      description: 'Secure payment processing system with multi-currency support, fraud detection, and transaction analytics.',
-      image: '/images/project-6.png', // Placeholder
-      tags: ['Stripe', 'Node.js', 'TypeScript', 'PostgreSQL'],
-      href: '#',
-      cta: 'View Integration'
-    },
-    {
-      title: 'AI-Powered Content CMS',
-      description: 'Content management system with AI-assisted writing, SEO optimization, and automated content generation.',
-      image: '/images/project-7.png', // Placeholder
-      tags: ['Next.js', 'OpenAI', 'PostgreSQL', 'TailwindCSS'],
-      href: '#',
-      cta: 'Explore CMS'
-    }
-  ];
 
   const toggleShowMore = () => {
     showAll = !showAll;

@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import PixelChevron from './PixelChevron.svelte';
+  import PixelIcon from './PixelIcon.svelte';
 
   interface ComparisonItem {
     text: string;
@@ -83,7 +83,7 @@
         <li class="item">
           <span class="icon text-accent-blue">
             {#if item.icon === '✅'}
-              <PixelChevron />
+              <PixelIcon name="chevron" />
             {:else}
               {item.icon || '❌'}
             {/if}
@@ -111,7 +111,7 @@
         <li class="item">
           <span class="icon text-accent-green">
             {#if !item.icon || item.icon === '✅'}
-              <PixelChevron />
+              <PixelIcon name="chevron" />
             {:else}
               {item.icon}
             {/if}
