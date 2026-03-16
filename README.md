@@ -217,6 +217,83 @@ Adjust animation speeds in `src/styles/global.css`:
 ### Color Theme
 All colors are CSS custom properties in `global.css` - easily customizable!
 
+## 🌐 Deployment to Cloudflare Pages
+
+This project is configured for deployment to Cloudflare Pages with SSR support.
+
+### Option 1: Direct Upload (Recommended for first deployment)
+
+```bash
+# 1. Build the project
+npm run build
+
+# 2. Deploy to Cloudflare Pages
+npx wrangler pages deploy ./dist --project-name=oredrok-portfolio
+```
+
+### Option 2: Git Integration (Recommended for production)
+
+1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)
+2. Navigate to **Workers & Pages** → **Create** → **Connect to Git**
+3. Select your repository
+4. Configure build settings:
+   - **Build command**: `npm run build`
+   - **Build output directory**: `dist`
+   - **Framework preset**: Astro
+5. Click **Save and Deploy**
+
+Every push to your main branch will automatically trigger a new deployment, and pull requests will get preview URLs.
+
+### Configuration
+
+The `wrangler.jsonc` file includes:
+- **Smart Placement**: Automatically optimizes function execution location
+- **Node.js compatibility**: Required for SSR features
+- **Compatibility date**: Set to latest standards
+
+### Local Preview with Wrangler
+
+Test your production build locally with the Cloudflare runtime:
+
+```bash
+# Build the project
+npm run build
+
+# Preview with Wrangler
+npx wrangler pages dev ./dist
+```
+
+### Environment Variables & Secrets
+
+For production secrets:
+
+```bash
+# Add a secret
+echo "secret-value" | npx wrangler pages secret put SECRET_KEY --project-name=oredrok-portfolio
+
+# List all secrets
+npx wrangler pages secret list --project-name=oredrok-portfolio
+
+# Delete a secret
+npx wrangler pages secret delete SECRET_KEY --project-name=oredrok-portfolio
+```
+
+For local development, create a `.dev.vars` file (never commit this):
+
+```bash
+# .dev.vars
+SECRET_KEY="local-secret-key"
+API_TOKEN="dev-token-123"
+```
+
+### Deployment Logs
+
+Monitor your deployment:
+
+```bash
+npx wrangler pages deployment tail --project-name=oredrok-portfolio
+```
+
 ## 🚧 Phase 1 Complete!
 
 ✅ **Completed:**
