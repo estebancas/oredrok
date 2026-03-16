@@ -212,9 +212,6 @@
       <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener" class="social-link pixel-cursor">
         LinkedIn
       </a>
-      <a href="https://twitter.com/yourusername" target="_blank" rel="noopener" class="social-link pixel-cursor">
-        Twitter
-      </a>
     </div>
   </div>
 </section>
