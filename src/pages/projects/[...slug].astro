@@ -1,0 +1,292 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PageLayout from '../../components/layout/PageLayout.astro';
+import PixelButton from '../../components/ui/PixelButton.svelte';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<PageLayout title={project.data.title}>
+  <main class="project-detail">
+    <div class="project-container">
+      <!-- Back Button -->
+      <div class="back-button">
+        <PixelButton
+          variant="outline"
+          size="sm"
+          href="/#projects"
+          client:load
+        >
+          ◄ Back to Projects
+        </PixelButton>
+      </div>
+
+      <!-- Project Header -->
+      <header class="project-header">
+        <h1 class="project-title pixel-header">{project.data.title}</h1>
+        <p class="project-description pixel-body">{project.data.description}</p>
+
+        <!-- Tags -->
+        <div class="project-tags">
+          {project.data.tags.map((tag) => (
+            <span class="tag pixel-label">{tag}</span>
+          ))}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="project-actions">
+          {project.data.demo && (
+            <PixelButton
+              variant="blue"
+              size="md"
+              href={project.data.demo}
+              client:load
+            >
+              View Demo ►
+            </PixelButton>
+          )}
+          {project.data.github && (
+            <PixelButton
+              variant="green"
+              size="md"
+              href={project.data.github}
+              client:load
+            >
+              GitHub ►
+            </PixelButton>
+          )}
+        </div>
+      </header>
+
+      <!-- Project Image -->
+      {project.data.image && (
+        <div class="project-image-container">
+          <img
+            src={project.data.image}
+            alt={project.data.title}
+            class="project-image"
+          />
+        </div>
+      )}
+
+      <!-- Project Content (Markdown) -->
+      <article class="project-content prose">
+        <Content />
+      </article>
+
+      <!-- Footer Navigation -->
+      <footer class="project-footer">
+        <PixelButton
+          variant="blue"
+          size="lg"
+          href="/#projects"
+          client:load
+        >
+          ◄ View All Projects
+        </PixelButton>
+      </footer>
+    </div>
+  </main>
+</PageLayout>
+
+<style>
+  .project-detail {
+    min-height: 100vh;
+    background: var(--bg-primary);
+    padding: var(--spacing-4xl) var(--spacing-lg);
+  }
+
+  .project-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .back-button {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .project-header {
+    margin-bottom: var(--spacing-4xl);
+  }
+
+  .project-title {
+    font-size: clamp(32px, 5vw, 48px);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    text-shadow:
+      3px 3px 0 var(--accent-blue),
+      6px 6px 0 var(--bg-secondary);
+  }
+
+  .project-description {
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xl);
+    line-height: 1.6;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .tag {
+    background: var(--bg-secondary);
+    color: var(--accent-blue);
+    padding: 8px 16px;
+    border: 2px solid var(--border-pixel);
+    border-radius: var(--radius-sm);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .project-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  .project-image-container {
+    margin-bottom: var(--spacing-4xl);
+    border: var(--border-pixel) solid var(--border-light);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--bg-secondary);
+    box-shadow: 8px 8px 0 var(--accent-blue-dark);
+  }
+
+  .project-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .project-content {
+    margin-bottom: var(--spacing-4xl);
+  }
+
+  /* Markdown Content Styling */
+  .prose {
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .prose :global(h1),
+  .prose :global(h2),
+  .prose :global(h3),
+  .prose :global(h4) {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--text-primary);
+    margin-top: var(--spacing-2xl);
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.4;
+  }
+
+  .prose :global(h1) {
+    font-size: clamp(24px, 4vw, 32px);
+    color: var(--accent-green);
+  }
+
+  .prose :global(h2) {
+    font-size: clamp(18px, 3vw, 24px);
+    color: var(--accent-blue);
+  }
+
+  .prose :global(h3) {
+    font-size: clamp(14px, 2vw, 18px);
+  }
+
+  .prose :global(p) {
+    margin-bottom: var(--spacing-lg);
+    font-size: 14px;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin-bottom: var(--spacing-lg);
+    padding-left: var(--spacing-xl);
+  }
+
+  .prose :global(li) {
+    margin-bottom: var(--spacing-sm);
+    font-size: 14px;
+  }
+
+  .prose :global(strong) {
+    color: var(--accent-blue);
+    font-weight: bold;
+  }
+
+  .prose :global(code) {
+    background: var(--bg-secondary);
+    color: var(--accent-green);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+  }
+
+  .prose :global(pre) {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-pixel);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    overflow-x: auto;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .prose :global(pre code) {
+    background: transparent;
+    padding: 0;
+  }
+
+  .prose :global(a) {
+    color: var(--accent-blue);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .prose :global(a:hover) {
+    color: var(--accent-green);
+  }
+
+  .project-footer {
+    padding-top: var(--spacing-2xl);
+    border-top: 2px solid var(--border-pixel);
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .project-detail {
+      padding: var(--spacing-2xl) var(--spacing-md);
+    }
+
+    .project-title {
+      text-shadow:
+        2px 2px 0 var(--accent-blue),
+        4px 4px 0 var(--bg-secondary);
+    }
+
+    .project-actions {
+      flex-direction: column;
+    }
+  }
+</style>

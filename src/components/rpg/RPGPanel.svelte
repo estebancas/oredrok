@@ -66,26 +66,20 @@
 
 <style>
   .rpg-panel {
-    border: var(--border-rpg-thick) solid var(--color-border);
+    border: var(--border-thick) solid;
     border-radius: var(--radius-md);
-    background-color: var(--color-panel);
     overflow: hidden;
-    transition: border-color var(--duration-normal) var(--ease-out);
-  }
-
-  .rpg-panel:hover {
-    border-color: var(--color-accent);
   }
 
   .rpg-panel-header {
-    padding: var(--spacing-rpg-sm) var(--spacing-rpg-md);
-    border-bottom: var(--border-rpg-thin) solid var(--color-border);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: var(--border-thin) solid;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
   .rpg-panel-body {
-    background: linear-gradient(135deg, var(--color-panel) 0%, #0a1220 100%);
+    /* layout only - no styling */
   }
 </style>

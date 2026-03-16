@@ -82,7 +82,7 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-rpg-md);
+    gap: var(--spacing-md);
   }
 
   .menu-item {
@@ -91,31 +91,13 @@
 
   .menu-link {
     display: block;
-    padding: var(--spacing-rpg-sm) 0;
-    font-size: var(--font-size-sm);
-    color: var(--color-text);
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: color var(--duration-fast) var(--ease-out),
-                transform var(--duration-fast) var(--ease-out);
-  }
-
-  .menu-link:hover {
-    color: var(--color-accent);
-    transform: translateX(4px);
-  }
-
-  .menu-link.active {
-    color: var(--color-active);
+    padding: var(--spacing-sm) 0;
   }
 
   .menu-cursor {
     position: absolute;
     right: 0;
     top: 0;
-    font-size: var(--font-size-sm);
-    color: var(--color-active);
     pointer-events: none;
     will-change: transform;
   }
