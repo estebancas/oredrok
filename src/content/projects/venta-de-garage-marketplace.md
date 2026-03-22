@@ -1,8 +1,8 @@
 ---
 title: "SEO-optimized marketplace for personal items"
 role: "Solo project"
-problem: "Selling personal items online usually means paying for ads on Facebook Marketplace or dealing with slow-loading listing sites that don't rank well in search results. I wanted a faster, more discoverable way to reach local buyers without advertising costs."
-contribution: "I built a server-side rendered marketplace from scratch to maximize SEO visibility and performance. The site uses Cloudflare R2 for fast image loading and Supabase for inventory management. The SSR approach helped the listings rank organically in search engines, bringing in buyers without paid advertising."
+problem: "Facebook Marketplace charges to boost listings. Craigslist loads like it's 2005. Local classifieds sites don't rank in Google. I needed to sell furniture and bikes fast without paying Meta or waiting for buyers who'd never find my posts."
+contribution: "I built an SSR marketplace with Next.js so Google would index every listing immediately. Cloudflare R2 serves images fast and cheap. Supabase handles inventory and search. No ad budget, just SEO fundamentals: semantic HTML, fast load times, and unique URLs for every item. Result: sold most expensive stuff in less than 2 weeks with only organic traffic."
 results:
   - metric: "sold items without paid ads"
   - metric: "fast load times with R2 CDN"

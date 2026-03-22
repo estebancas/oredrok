@@ -1,8 +1,8 @@
 ---
 title: "E-commerce platform modernization for Staples"
 role: "Team · Frontend Developer"
-problem: "Staples' checkout process was slow, outdated, and customers were spending 2-4 extra minutes per transaction. No shared design system, leading to inconsistent user experiences and duplicated work."
-contribution: "I led the frontend implementation and migration of the cart and checkout experience from Create React App to Next.js, improving performance and accessibility. I also owned the build tooling for the company's new Design System library, integrating Rollup and SWC.js for optimized bundling and configuring the CI/CD pipeline for package distribution across teams."
+problem: "Staples' checkout took 2-4 minutes longer than competitors—death by a thousand legacy React components. Five separate sites were rebuilding the same buttons and forms because there was no shared design system. Engineers were shipping inconsistent UIs, customers were bouncing."
+contribution: "I migrated cart and checkout from CRA to Next.js—better performance, accessibility, and SEO out of the box. Then I built the tooling for Staples' first shared Design System: Rollup + SWC.js for optimized builds, CI/CD for npm distribution, and onboarding docs for 15-30 developers across five sites. The result: consistent UIs, faster checkouts, happier engineers."
 results:
   - metric: "2-4 min faster checkout"
   - metric: "design system used across 5 sites"

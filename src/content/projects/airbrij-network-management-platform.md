@@ -1,8 +1,8 @@
 ---
 title: "Cloud-managed platform for home and business networks"
 role: "Team · Sr. Full Stack Developer"
-problem: "Setting up and managing enterprise-grade software-defined networks was complex and expensive. Was required a platform that let anyone—from home users to businesses—quickly deploy and monitor robust SD-WAN solutions without specialized networking knowledge."
-contribution: "As the primary full-stack developer in this startup, I owned the end-to-end development across all platform components—mobile app, web portal, and backend services. I architected the real-time data flow, designed the API structure, implemented authentication and billing systems, and ensured seamless cross-platform integration. My work spanned from native mobile modules for network control to scalable backend services handling live monitoring data."
+problem: "Enterprise SD-WAN gear costs $5K-$20K and requires network engineers to configure. Small businesses and home users were stuck with consumer routers that couldn't handle VPN traffic or multi-site setups. The gap: no cloud-managed SD-WAN for people who don't speak Cisco."
+contribution: "As the sole full-stack developer at this startup, I built a React Native app for router control, a Next.js admin portal, and a NestJS backend for real-time monitoring. I designed the WebSocket architecture for live network stats, implemented Stripe billing, and wired up AWS for device provisioning. 17 months, ~300 active users, zero platform downtime."
 results:
   - metric: "~300 active users"
   - metric: "17-month project"

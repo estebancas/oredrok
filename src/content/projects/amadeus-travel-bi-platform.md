@@ -1,8 +1,8 @@
 ---
 title: "BI platform for global travel technology leader"
 role: "Team · Sr. Full Stack Developer"
-problem: "Amadeus TravelClick's executive team needed fast, reliable access to critical business metrics—booking volumes, revenue trends, and inventory data—but the reporting platform was slow and the data visualization was inconsistent, making it hard to make quick decisions."
-contribution: "I focused on performance and reliability improvements across the full stack. I refactored the core data management system using Context API to optimize state handling, rebuilt query logic for faster data retrieval, and implemented scalable UI components following Component Driven Development. I also built comprehensive test coverage to ensure data accuracy and system stability."
+problem: "Amadeus execs needed to check booking volumes and revenue trends on the fly—but the BI platform took 30+ seconds to load dashboards, and each chart looked different because there was no component library. Slow data meant delayed decisions in a fast-moving industry."
+contribution: "I refactored the data layer from prop drilling to Context API, cutting re-renders and speeding up dashboard loads. I rewrote the query logic to fetch smarter (less data, faster), then built a component library so every chart followed the same patterns. Added Jest coverage for data transforms to catch bugs before execs saw them."
 results:
   - metric: "noticeable load time reduction"
   - metric: "improved query performance"
