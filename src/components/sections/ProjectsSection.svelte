@@ -11,7 +11,10 @@
     description: string;
     image: string;
     tags: string[];
-    href: string;
+    role?: string;
+    href?: string;
+    appStoreUrl?: string;
+    playStoreUrl?: string;
     cta: string;
   }
 
@@ -92,7 +95,10 @@
           description={project.description}
           image={project.image}
           tags={project.tags}
+          role={project.role}
           href={project.href}
+          appStoreUrl={project.appStoreUrl}
+          playStoreUrl={project.playStoreUrl}
           cta={project.cta}
         />
       </div>

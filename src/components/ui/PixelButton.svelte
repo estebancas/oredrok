@@ -6,6 +6,8 @@
     variant = 'blue',
     size = 'md',
     href,
+    target,
+    rel,
     onclick,
     disabled = false,
     children,
@@ -14,6 +16,8 @@
     variant?: 'blue' | 'green' | 'red' | 'outline';
     size?: 'sm' | 'md' | 'lg';
     href?: string;
+    target?: string;
+    rel?: string;
     onclick?: (e: MouseEvent) => void;
     disabled?: boolean;
     children?: import('svelte').Snippet;
@@ -83,6 +87,8 @@
   <a
     bind:this={buttonRef}
     {href}
+    {target}
+    {rel}
     onclick={handleClick}
     class="pixel-button pixel-cursor {variantClasses[variant]} {sizeClasses[size]} {className}"
     class:opacity-50={disabled}
