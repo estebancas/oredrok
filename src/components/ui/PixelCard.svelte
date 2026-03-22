@@ -8,6 +8,7 @@
     description,
     image,
     tags = [],
+    role,
     href,
     cta = 'View Project',
     class: className = ''
@@ -16,6 +17,7 @@
     description: string;
     image?: string;
     tags?: string[];
+    role?: string;
     href?: string;
     cta?: string;
     class?: string;
@@ -58,6 +60,9 @@
   {/if}
 
   <div class="card-content">
+    {#if role}
+      <span class="role-badge pixel-label {role.toLowerCase().includes('team') ? 'role-team' : role.toLowerCase().includes('solo') ? 'role-solo' : ''}">{role}</span>
+    {/if}
     <h3 class="card-title pixel-header">{title}</h3>
     <p class="card-description pixel-body">{description}</p>
 
@@ -71,7 +76,7 @@
 
     {#if href}
       <div class="card-cta">
-        <PixelButton {href} variant="blue" size="sm">
+        <PixelButton {href} variant="blue" size="sm" target="_blank" rel="noopener noreferrer">
           {cta} →
         </PixelButton>
       </div>
@@ -118,6 +123,29 @@
     flex-direction: column;
     gap: var(--spacing-md);
     flex: 1;
+  }
+
+  .role-badge {
+    font-size: 10px;
+    padding: 4px 8px;
+    background: var(--bg-primary);
+    border: 2px solid var(--accent-green);
+    border-radius: var(--radius-sm);
+    color: var(--accent-green);
+    width: fit-content;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Role-specific colors */
+  .role-badge.role-team {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+  }
+
+  .role-badge.role-solo {
+    border-color: #fbbf24;
+    color: #fbbf24;
   }
 
   .card-title {

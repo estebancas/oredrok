@@ -11,7 +11,8 @@
     description: string;
     image: string;
     tags: string[];
-    href: string;
+    role?: string;
+    href?: string;
     cta: string;
   }
 
@@ -92,6 +93,7 @@
           description={project.description}
           image={project.image}
           tags={project.tags}
+          role={project.role}
           href={project.href}
           cta={project.cta}
         />

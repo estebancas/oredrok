@@ -4,7 +4,7 @@
       "id": "staples-ecommerce-modernization",
       "title": "E-commerce platform modernization for Staples",
       "role": "Team \u00b7 Frontend Developer",
-      "problem": "Staples' checkout process was slow, outdated, and inaccessible\u2014customers were spending 2-4 extra minutes per transaction. Development teams across 5 different sites had no shared design system, leading to inconsistent user experiences and duplicated work.",
+      "problem": "Staples' checkout process was slow, outdated, and inaccessible\u2014customers were spending 2-4 extra minutes per transaction. No shared design system, leading to inconsistent user experiences and duplicated work.",
       "contribution": "I led the frontend implementation and migration of the cart and checkout experience from Create React App to Next.js, improving performance and accessibility. I also owned the build tooling for the company's new Design System library, integrating Rollup and SWC.js for optimized bundling and configuring the CI/CD pipeline for package distribution across teams.",
       "results": [
         {
@@ -61,9 +61,9 @@
     },
     {
       "id": "airbrij-network-management-platform",
-      "title": "Cloud-managed SD-WAN platform for home and business networks",
+      "title": "Cloud-managed platform for home and business networks",
       "role": "Team \u00b7 Sr. Full Stack Developer",
-      "problem": "Setting up and managing enterprise-grade software-defined networks was complex and expensive. Airbrij needed a platform that let anyone\u2014from home users to businesses\u2014quickly deploy and monitor robust SD-WAN solutions without specialized networking knowledge.",
+      "problem": "Setting up and managing enterprise-grade software-defined networks was complex and expensive. A platform that let anyone\u2014from home users to businesses\u2014quickly deploy and monitor robust SD-WAN solutions without specialized networking knowledge was required.",
       "contribution": "As the primary full-stack developer in this startup, I owned the end-to-end development across all platform components\u2014mobile app, web portal, and backend services. I architected the real-time data flow, designed the API structure, implemented authentication and billing systems, and ensured seamless cross-platform integration. My work spanned from native mobile modules for network control to scalable backend services handling live monitoring data.",
       "results": [
         {
@@ -79,18 +79,19 @@
       "techStack": [
         "React Native",
         "Next.js",
-        "Nest.js",
         "MongoDB",
-        "WebSocket",
+        "Nest.js",
         "AWS"
       ],
       "image": "/images/projects/airbrij-network-management-platform.jpg",
       "liveUrl": null,
+      "appStoreUrl": null,
+      "playStoreUrl": null,
       "order": 2
     },
     {
       "id": "amadeus-travel-bi-platform",
-      "title": "Business intelligence platform for global travel technology leader",
+      "title": "BI platform for global travel technology leader",
       "role": "Team \u00b7 Sr. Full Stack Developer",
       "problem": "Amadeus TravelClick's executive team needed fast, reliable access to critical business metrics\u2014booking volumes, revenue trends, and inventory data\u2014but the reporting platform was slow and the data visualization was inconsistent, making it hard to make quick decisions.",
       "contribution": "I focused on performance and reliability improvements across the full stack. I refactored the core data management system using Context API to optimize state handling, rebuilt query logic for faster data retrieval, and implemented scalable UI components following Component Driven Development. I also built comprehensive test coverage to ensure data accuracy and system stability.",

@@ -12,11 +12,12 @@ const projects = allProjects
   .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999))
   .map((project) => ({
     title: project.data.title,
-    description: project.data.description,
+    description: project.data.contribution, // Use contribution as the card description
     image: project.data.image,
-    tags: project.data.tags,
-    href: `/projects/${project.slug}`,
-    cta: project.data.cta,
+    tags: project.data.techStack, // Use techStack as tags
+    role: project.data.role,
+    href: project.data.liveUrl || project.data.appStoreUrl || project.data.playStoreUrl || undefined,
+    cta: project.data.liveUrl ? 'View Live' : project.data.appStoreUrl || project.data.playStoreUrl ? 'View App' : 'View Project',
   }));
 ---
 
