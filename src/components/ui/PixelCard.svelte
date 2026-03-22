@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import gsap from 'gsap';
   import PixelButton from './PixelButton.svelte';
+  import AppStoreModal from './AppStoreModal.svelte';
 
   let {
     title,
@@ -11,6 +12,8 @@
     role,
     href,
     cta = 'View Project',
+    appStoreUrl,
+    playStoreUrl,
     class: className = ''
   }: {
     title: string;
@@ -20,10 +23,16 @@
     role?: string;
     href?: string;
     cta?: string;
+    appStoreUrl?: string | null;
+    playStoreUrl?: string | null;
     class?: string;
   } = $props();
 
   let cardRef: HTMLDivElement;
+  let showAppStoreModal = $state(false);
+
+  // Check if this is a "View App" button
+  const isAppButton = cta === 'View App';
 
   onMount(() => {
     if (cardRef) {
@@ -74,7 +83,13 @@
       </div>
     {/if}
 
-    {#if href}
+    {#if isAppButton}
+      <div class="card-cta">
+        <PixelButton variant="blue" size="sm" onclick={() => showAppStoreModal = true}>
+          {cta} →
+        </PixelButton>
+      </div>
+    {:else if href}
       <div class="card-cta">
         <PixelButton {href} variant="blue" size="sm" target="_blank" rel="noopener noreferrer">
           {cta} →
@@ -83,6 +98,17 @@
     {/if}
   </div>
 </div>
+
+<!-- App Store Modal -->
+{#if isAppButton}
+  <AppStoreModal
+    bind:isOpen={showAppStoreModal}
+    onClose={() => showAppStoreModal = false}
+    {appStoreUrl}
+    {playStoreUrl}
+    projectTitle={title}
+  />
+{/if}
 
 <style>
   .pixel-card {

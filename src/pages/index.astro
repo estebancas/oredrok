@@ -16,7 +16,9 @@ const projects = allProjects
     image: project.data.image,
     tags: project.data.techStack, // Use techStack as tags
     role: project.data.role,
-    href: project.data.liveUrl || project.data.appStoreUrl || project.data.playStoreUrl || undefined,
+    href: project.data.liveUrl || undefined,
+    appStoreUrl: project.data.appStoreUrl || undefined,
+    playStoreUrl: project.data.playStoreUrl || undefined,
     cta: project.data.liveUrl ? 'View Live' : project.data.appStoreUrl || project.data.playStoreUrl ? 'View App' : 'View Project',
   }));
 ---

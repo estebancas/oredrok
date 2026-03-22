@@ -9,7 +9,7 @@ results:
   - metric: "real-time monitoring across mobile + web"
 techStack: ["React Native", "Next.js", "Nest.js", "MongoDB", "AWS"]
 image: "/images/projects/airbrij-network-management-platform.jpg"
-appStoreUrl: null
+appStoreUrl: "https://apps.apple.com/us/app/airbrij/id1575438135"
 playStoreUrl: null
 order: 2
 ---
