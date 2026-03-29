@@ -2,26 +2,39 @@
   import { onMount } from 'svelte';
   import gsap from 'gsap';
   import PixelButton from './PixelButton.svelte';
+  import AppStoreModal from './AppStoreModal.svelte';
 
   let {
     title,
     description,
     image,
     tags = [],
+    role,
     href,
+    liveUrl,
     cta = 'View Project',
+    appStoreUrl,
+    playStoreUrl,
     class: className = ''
   }: {
     title: string;
     description: string;
     image?: string;
     tags?: string[];
+    role?: string;
     href?: string;
+    liveUrl?: string;
     cta?: string;
+    appStoreUrl?: string | null;
+    playStoreUrl?: string | null;
     class?: string;
   } = $props();
 
   let cardRef: HTMLDivElement;
+  let showAppStoreModal = $state(false);
+
+  // Check if this is a "View App" button
+  const isAppButton = cta === 'View App';
 
   onMount(() => {
     if (cardRef) {
@@ -58,8 +71,11 @@
   {/if}
 
   <div class="card-content">
+    {#if role}
+      <span class="role-badge pixel-label {role.toLowerCase().includes('team') ? 'role-team' : role.toLowerCase().includes('solo') ? 'role-solo' : ''}">{role}</span>
+    {/if}
     <h3 class="card-title pixel-header">{title}</h3>
-    <p class="card-description pixel-body">{description}</p>
+    <p class="card-description jetbrains-mono">{description}</p>
 
     {#if tags.length > 0}
       <div class="card-tags">
@@ -69,7 +85,13 @@
       </div>
     {/if}
 
-    {#if href}
+    {#if isAppButton}
+      <div class="card-cta">
+        <PixelButton variant="blue" size="sm" onclick={() => showAppStoreModal = true}>
+          {cta} →
+        </PixelButton>
+      </div>
+    {:else if href}
       <div class="card-cta">
         <PixelButton {href} variant="blue" size="sm">
           {cta} →
@@ -78,6 +100,17 @@
     {/if}
   </div>
 </div>
+
+<!-- App Store Modal -->
+{#if isAppButton}
+  <AppStoreModal
+    bind:isOpen={showAppStoreModal}
+    onClose={() => showAppStoreModal = false}
+    {appStoreUrl}
+    {playStoreUrl}
+    projectTitle={title}
+  />
+{/if}
 
 <style>
   .pixel-card {
@@ -118,6 +151,29 @@
     flex-direction: column;
     gap: var(--spacing-md);
     flex: 1;
+  }
+
+  .role-badge {
+    font-size: 10px;
+    padding: 4px 8px;
+    background: var(--bg-primary);
+    border: 2px solid var(--accent-green);
+    border-radius: var(--radius-sm);
+    color: var(--accent-green);
+    width: fit-content;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Role-specific colors */
+  .role-badge.role-team {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+  }
+
+  .role-badge.role-solo {
+    border-color: #fbbf24;
+    color: #fbbf24;
   }
 
   .card-title {

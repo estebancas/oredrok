@@ -11,7 +11,11 @@
     description: string;
     image: string;
     tags: string[];
-    href: string;
+    role?: string;
+    href?: string;
+    liveUrl?: string;
+    appStoreUrl?: string;
+    playStoreUrl?: string;
     cta: string;
   }
 
@@ -92,7 +96,11 @@
           description={project.description}
           image={project.image}
           tags={project.tags}
+          role={project.role}
           href={project.href}
+          liveUrl={project.liveUrl}
+          appStoreUrl={project.appStoreUrl}
+          playStoreUrl={project.playStoreUrl}
           cta={project.cta}
         />
       </div>
@@ -154,6 +162,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-xl);
+    justify-items: center;
   }
 
   .project-card {

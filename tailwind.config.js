@@ -23,6 +23,7 @@ export default {
         'pixel-header': ['"Press Start 2P"', 'monospace'],
         'pixel-body': ['"VT323"', 'monospace'],
         'pixel-label': ['"DotGothic16"', '"Press Start 2P"', 'monospace'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
       },
       borderWidth: {
         'pixel': 'var(--border-pixel)',

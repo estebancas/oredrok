@@ -12,11 +12,15 @@ const projects = allProjects
   .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999))
   .map((project) => ({
     title: project.data.title,
-    description: project.data.description,
+    description: project.data.contribution, // Use contribution as the card description
     image: project.data.image,
-    tags: project.data.tags,
-    href: `/projects/${project.slug}`,
-    cta: project.data.cta,
+    tags: project.data.techStack, // Use techStack as tags
+    role: project.data.role,
+    href: `/projects/${project.slug}`, // Internal link to detail page
+    liveUrl: project.data.liveUrl, // External link for detail page
+    appStoreUrl: project.data.appStoreUrl,
+    playStoreUrl: project.data.playStoreUrl,
+    cta: project.data.appStoreUrl || project.data.playStoreUrl ? 'View App' : 'View Details',
   }));
 ---
 
@@ -36,3 +40,32 @@ const projects = allProjects
   <!-- Contact Form -->
   <ContactSection client:visible />
 </PageLayout>
+
+<script>
+  // Handle hash navigation on page load
+  if (typeof window !== 'undefined') {
+    window.addEventListener('load', () => {
+      const hash = window.location.hash;
+      if (hash) {
+        // Small delay to ensure the page is fully rendered
+        setTimeout(() => {
+          const element = document.querySelector(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+      }
+    });
+
+    // Also handle hash changes during navigation
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  }
+</script>
