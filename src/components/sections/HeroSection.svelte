@@ -72,7 +72,7 @@
       class="hero-subtitle pixel-body"
     >
       Software Wizard crafting digital experiences<br />
-      with retro charm and modern tech
+      with the range of a modern renaissance developer
     </p>
 
     <!-- CTA Buttons -->

@@ -5,6 +5,7 @@ import HeroSection from '../components/sections/HeroSection.svelte';
 import AboutSection from '../components/sections/AboutSection.svelte';
 import ProjectsSection from '../components/sections/ProjectsSection.svelte';
 import ContactSection from '../components/sections/ContactSection.svelte';
+import Footer from '../components/layout/Footer.svelte';
 
 // Fetch projects from content collections
 const allProjects = await getCollection('projects');
@@ -17,16 +18,16 @@ const projects = allProjects
     tags: project.data.techStack, // Use techStack as tags
     role: project.data.role,
     href: `/projects/${project.slug}`, // Internal link to detail page
-    liveUrl: project.data.liveUrl, // External link for detail page
-    appStoreUrl: project.data.appStoreUrl,
-    playStoreUrl: project.data.playStoreUrl,
+    liveUrl: project.data.liveUrl || undefined, // External link for detail page
+    appStoreUrl: project.data.appStoreUrl || undefined,
+    playStoreUrl: project.data.playStoreUrl || undefined,
     cta: project.data.appStoreUrl || project.data.playStoreUrl ? 'View App' : 'View Details',
   }));
 ---
 
 <PageLayout
   title="Oredrok | Software Wizard"
-  description="Pixel-perfect portfolio of Oredrok, a software wizard crafting digital experiences with retro charm and modern tech"
+  description="Pixel-perfect portfolio of Oredrok, a software wizard crafting digital experiences with the range of a modern renaissance developer"
 >
   <!-- Hero Section -->
   <HeroSection client:load />
@@ -39,6 +40,9 @@ const projects = allProjects
 
   <!-- Contact Form -->
   <ContactSection client:visible />
+
+  <!-- Footer (Main Page Only) -->
+  <Footer client:visible />
 </PageLayout>
 
 <script>
