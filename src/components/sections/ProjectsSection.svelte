@@ -13,6 +13,7 @@
     tags: string[];
     role?: string;
     href?: string;
+    liveUrl?: string;
     appStoreUrl?: string;
     playStoreUrl?: string;
     cta: string;
@@ -97,6 +98,7 @@
           tags={project.tags}
           role={project.role}
           href={project.href}
+          liveUrl={project.liveUrl}
           appStoreUrl={project.appStoreUrl}
           playStoreUrl={project.playStoreUrl}
           cta={project.cta}
@@ -160,6 +162,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-xl);
+    justify-items: center;
   }
 
   .project-card {

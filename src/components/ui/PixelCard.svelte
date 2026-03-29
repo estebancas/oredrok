@@ -11,6 +11,7 @@
     tags = [],
     role,
     href,
+    liveUrl,
     cta = 'View Project',
     appStoreUrl,
     playStoreUrl,
@@ -22,6 +23,7 @@
     tags?: string[];
     role?: string;
     href?: string;
+    liveUrl?: string;
     cta?: string;
     appStoreUrl?: string | null;
     playStoreUrl?: string | null;
@@ -73,7 +75,7 @@
       <span class="role-badge pixel-label {role.toLowerCase().includes('team') ? 'role-team' : role.toLowerCase().includes('solo') ? 'role-solo' : ''}">{role}</span>
     {/if}
     <h3 class="card-title pixel-header">{title}</h3>
-    <p class="card-description pixel-body">{description}</p>
+    <p class="card-description jetbrains-mono">{description}</p>
 
     {#if tags.length > 0}
       <div class="card-tags">
@@ -91,7 +93,7 @@
       </div>
     {:else if href}
       <div class="card-cta">
-        <PixelButton {href} variant="blue" size="sm" target="_blank" rel="noopener noreferrer">
+        <PixelButton {href} variant="blue" size="sm">
           {cta} →
         </PixelButton>
       </div>

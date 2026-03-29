@@ -16,10 +16,11 @@ const projects = allProjects
     image: project.data.image,
     tags: project.data.techStack, // Use techStack as tags
     role: project.data.role,
-    href: project.data.liveUrl || undefined,
-    appStoreUrl: project.data.appStoreUrl || undefined,
-    playStoreUrl: project.data.playStoreUrl || undefined,
-    cta: project.data.liveUrl ? 'View Live' : project.data.appStoreUrl || project.data.playStoreUrl ? 'View App' : 'View Project',
+    href: `/projects/${project.slug}`, // Internal link to detail page
+    liveUrl: project.data.liveUrl, // External link for detail page
+    appStoreUrl: project.data.appStoreUrl,
+    playStoreUrl: project.data.playStoreUrl,
+    cta: project.data.appStoreUrl || project.data.playStoreUrl ? 'View App' : 'View Details',
   }));
 ---
 
@@ -39,3 +40,32 @@ const projects = allProjects
   <!-- Contact Form -->
   <ContactSection client:visible />
 </PageLayout>
+
+<script>
+  // Handle hash navigation on page load
+  if (typeof window !== 'undefined') {
+    window.addEventListener('load', () => {
+      const hash = window.location.hash;
+      if (hash) {
+        // Small delay to ensure the page is fully rendered
+        setTimeout(() => {
+          const element = document.querySelector(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+      }
+    });
+
+    // Also handle hash changes during navigation
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  }
+</script>

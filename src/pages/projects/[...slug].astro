@@ -36,23 +36,46 @@ const { Content } = await project.render();
 
       <!-- Project Header -->
       <header class="project-header">
-        <h1 class="project-title pixel-header">{project.data.title}</h1>
-        <p class="project-description pixel-body">{project.data.description}</p>
+        {project.data.role && (
+          <div class="role-container">
+            <span class={`role-badge pixel-label ${project.data.role.toLowerCase().includes('team') ? 'role-team' : project.data.role.toLowerCase().includes('solo') ? 'role-solo' : ''}`}>
+              {project.data.role}
+            </span>
+          </div>
+        )}
 
-        <!-- Tags -->
-        <div class="project-tags">
-          {project.data.tags.map((tag) => (
-            <span class="tag pixel-label">{tag}</span>
-          ))}
-        </div>
+        <h1 class="project-title pixel-header">{project.data.title}</h1>
+
+        <!-- Tech Stack / Tags -->
+        {(project.data.tags || project.data.techStack) && (
+          <div class="project-tags">
+            {(project.data.tags || project.data.techStack || []).map((tag) => (
+              <span class="tag pixel-label">{tag}</span>
+            ))}
+          </div>
+        )}
 
         <!-- Action Buttons -->
         <div class="project-actions">
+          {project.data.liveUrl && (
+            <PixelButton
+              variant="blue"
+              size="md"
+              href={project.data.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              client:load
+            >
+              View Live Site ►
+            </PixelButton>
+          )}
           {project.data.demo && (
             <PixelButton
               variant="blue"
               size="md"
               href={project.data.demo}
+              target="_blank"
+              rel="noopener noreferrer"
               client:load
             >
               View Demo ►
@@ -63,6 +86,8 @@ const { Content } = await project.render();
               variant="green"
               size="md"
               href={project.data.github}
+              target="_blank"
+              rel="noopener noreferrer"
               client:load
             >
               GitHub ►
@@ -80,6 +105,36 @@ const { Content } = await project.render();
             class="project-image"
           />
         </div>
+      )}
+
+      <!-- Problem Statement -->
+      {project.data.problem && (
+        <section class="project-section">
+          <h2 class="section-heading pixel-header">The Problem</h2>
+          <p class="section-content jetbrains-mono">{project.data.problem}</p>
+        </section>
+      )}
+
+      <!-- Contribution -->
+      {project.data.contribution && (
+        <section class="project-section">
+          <h2 class="section-heading pixel-header">My Contribution</h2>
+          <p class="section-content jetbrains-mono">{project.data.contribution}</p>
+        </section>
+      )}
+
+      <!-- Results -->
+      {project.data.results && project.data.results.length > 0 && (
+        <section class="project-section">
+          <h2 class="section-heading pixel-header">Results</h2>
+          <div class="results-grid">
+            {project.data.results.map((result) => (
+              <div class="result-card items-center">
+                <span class="result-metric jetbrains-mono">{result.metric}</span>
+              </div>
+            ))}
+          </div>
+        </section>
       )}
 
       <!-- Project Content (Markdown) -->
@@ -120,6 +175,32 @@ const { Content } = await project.render();
 
   .project-header {
     margin-bottom: var(--spacing-4xl);
+  }
+
+  .role-container {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .role-badge {
+    font-size: 12px;
+    padding: 8px 16px;
+    background: var(--bg-primary);
+    border: 2px solid var(--accent-green);
+    border-radius: var(--radius-sm);
+    color: var(--accent-green);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+  }
+
+  .role-badge.role-team {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+  }
+
+  .role-badge.role-solo {
+    border-color: #fbbf24;
+    color: #fbbf24;
   }
 
   .project-title {
@@ -181,6 +262,59 @@ const { Content } = await project.render();
     margin-bottom: var(--spacing-4xl);
   }
 
+  .project-section {
+    margin-bottom: var(--spacing-3xl);
+    padding: var(--spacing-xl);
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-pixel);
+    border-radius: var(--radius-md);
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  .section-heading {
+    font-size: clamp(16px, 3vw, 20px);
+    color: var(--accent-blue);
+    margin-bottom: var(--spacing-lg);
+    text-transform: uppercase;
+  }
+
+  .section-content {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+  }
+
+  .result-card {
+    background: var(--bg-elevated);
+    border: 2px solid var(--accent-green);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-lg);
+    text-align: center;
+    box-shadow: 4px 4px 0 var(--accent-green-dark);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .result-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 6px 6px 0 var(--accent-green-dark);
+  }
+
+  .result-metric {
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: bold;
+  }
+
   /* Markdown Content Styling */
   .prose {
     color: var(--text-secondary);
@@ -215,6 +349,7 @@ const { Content } = await project.render();
   .prose :global(p) {
     margin-bottom: var(--spacing-lg);
     font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
   }
 
   .prose :global(ul),
@@ -226,6 +361,7 @@ const { Content } = await project.render();
   .prose :global(li) {
     margin-bottom: var(--spacing-sm);
     font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
   }
 
   .prose :global(strong) {
