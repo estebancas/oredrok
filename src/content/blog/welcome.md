@@ -30,8 +30,8 @@ Over the years, I've learned so much from the developer community through blog p
 New posts will be published regularly (aiming for bi-weekly updates). You can follow along by:
 
 - Checking back here regularly
-- Following me on [GitHub](https://github.com/yourusername)
-- Connecting on [LinkedIn](https://linkedin.com/in/yourprofile)
+- Following me on [GitHub](https://github.com/estebancas)
+- Connecting on [LinkedIn](https://www.linkedin.com/in/estebancas94)
 
 Thanks for stopping by, and I hope you find the content valuable!
 

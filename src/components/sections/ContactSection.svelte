@@ -19,16 +19,40 @@
 
   let isSubmitting = $state(false);
   let submitMessage = $state('');
+  let isError = $state(false);
 
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
     isSubmitting = true;
     submitMessage = '';
+    isError = false;
 
-    // Simulate form submission (replace with actual endpoint)
-    setTimeout(() => {
+    try {
+      // Send form data to Cloudflare Worker
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          projectType: formData.projectType,
+          budget: formData.budget,
+          message: formData.message,
+          agreeToTerms: formData.agreedToTerms,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to send message');
+      }
+
+      // Success
       isSubmitting = false;
-      submitMessage = 'Thanks! I\'ll get back to you soon. ✅';
+      submitMessage = data.message || 'Thanks! I\'ll get back to you soon. ✅';
 
       // Reset form
       formData = {
@@ -39,7 +63,13 @@
         message: '',
         agreedToTerms: false
       };
-    }, 1500);
+    } catch (error) {
+      // Error handling
+      isSubmitting = false;
+      isError = true;
+      submitMessage = error instanceof Error ? error.message : 'Something went wrong. Please try again or email me directly.';
+      console.error('Form submission error:', error);
+    }
   };
 
   onMount(() => {
@@ -195,7 +225,7 @@
 
     <!-- Submit Message -->
     {#if submitMessage}
-      <p class="submit-message pixel-body">{submitMessage}</p>
+      <p class="submit-message pixel-body" class:error={isError}>{submitMessage}</p>
     {/if}
   </form>
 
@@ -206,10 +236,10 @@
       <a href="mailto:your@email.com" class="link-accent">your@email.com</a>
     </p>
     <div class="social-links">
-      <a href="https://github.com/yourusername" target="_blank" rel="noopener" class="social-link pixel-cursor">
+      <a href="https://github.com/estebancas" target="_blank" rel="noopener" class="social-link pixel-cursor">
         GitHub
       </a>
-      <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener" class="social-link pixel-cursor">
+      <a href="https://www.linkedin.com/in/estebancas94" target="_blank" rel="noopener" class="social-link pixel-cursor">
         LinkedIn
       </a>
     </div>
@@ -339,6 +369,10 @@
     margin-top: var(--spacing-md);
     color: var(--accent-green);
     font-size: 18px;
+  }
+
+  .submit-message.error {
+    color: #ef4444;
   }
 
   /* Footer */

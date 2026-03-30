@@ -127,7 +127,7 @@
   <div class="projects-footer">
     <p class="pixel-body text-center">
       Want to see more? Check out my
-      <a href="https://github.com/yourusername" target="_blank" rel="noopener" class="link-accent">
+      <a href="https://github.com/estebancas" target="_blank" rel="noopener" class="link-accent">
         GitHub profile
       </a>
       for open-source contributions.
