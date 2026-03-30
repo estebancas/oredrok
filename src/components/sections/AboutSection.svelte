@@ -4,35 +4,22 @@
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   import ComparisonCard from '../ui/ComparisonCard.svelte';
   import PixelButton from '../ui/PixelButton.svelte';
+  import PixelIcon from '../ui/PixelIcon.svelte';
 
   let sectionRef: HTMLElement;
   let headingRef: HTMLHeadingElement;
 
-  const leftItems = [
-    { text: 'Full-stack web application development', icon: '✅' },
-    { text: 'Modern frontend with React/Svelte', icon: '✅' },
-    { text: 'RESTful & GraphQL API design', icon: '✅' },
-    { text: 'Database design & optimization', icon: '✅' },
-    { text: 'Cloud deployment (AWS, Vercel)', icon: '✅' },
-    { text: 'Performance optimization & SEO', icon: '✅' }
+  const weapons = [
+    { name: 'JavaScript', level: 98 },
+    { name: 'React', level: 90 },
+    { name: 'Node.js', level: 90 },
+    { name: 'Python', level: 80 }
   ];
 
-  const rightItems = [
-    { text: 'E-commerce & payment integration', icon: '✅' },
-    { text: 'Real-time features with WebSockets', icon: '✅' },
-    { text: 'Authentication & authorization', icon: '✅' },
-    { text: 'Code review & technical consulting', icon: '✅' },
-    { text: 'Legacy code modernization', icon: '✅' },
-    { text: 'CI/CD pipeline setup', icon: '✅' }
-  ];
-
-  const techStack = [
-    { name: 'TypeScript', level: 95 },
-    { name: 'JavaScript', level: 90 },
-    { name: 'Node.js', level: 85 },
-    { name: 'Svelte', level: 80 },
-    { name: 'React', level: 75 },
-    { name: 'AWS', level: 70 }
+  const equipment = [
+    { name: 'AWS', level: 90 },
+    { name: 'Docker', level: 85 },
+    { name: 'Kubernetes', level: 80 }
   ];
 
   onMount(() => {
@@ -50,23 +37,6 @@
           once: true
         }
       });
-
-      // Animate tech stack bars
-      techStack.forEach((_, index) => {
-        const bar = document.querySelector(`#tech-bar-${index}`);
-        if (bar) {
-          gsap.from(bar, {
-            scaleX: 0,
-            duration: 1,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: bar,
-              start: 'top 85%',
-              once: true
-            }
-          });
-        }
-      });
     }
   });
 </script>
@@ -80,44 +50,24 @@
     bind:this={headingRef}
     class="section-title pixel-header"
   >
-    SERVICES
+    CHARACTER STATS
   </h2>
 
   <p class="section-subtitle pixel-body">
-    What I can build for you
+    Core abilities and equipped tools
   </p>
 
-  <!-- Services Cards -->
+  <!-- Character Stats Cards -->
   <ComparisonCard
-    leftTitle="Development"
-    rightTitle="Consulting & Support"
-    leftSubtitle="Build from scratch or enhance existing apps"
-    rightSubtitle="Technical guidance and code improvements"
-    {leftItems}
-    {rightItems}
+    leftTitle="WEAPONS"
+    rightTitle="EQUIPMENT"
+    leftSubtitle="Primary Arsenal"
+    rightSubtitle="Tools & Infrastructure"
+    leftIcon="sword"
+    rightIcon="shield"
+    leftItems={weapons}
+    rightItems={equipment}
   />
-
-  <!-- Tech Stack -->
-  <div class="tech-stack">
-    <h3 class="tech-title pixel-label">Tech Stack & Expertise</h3>
-    <div class="tech-grid">
-      {#each techStack as tech, index}
-        <div class="tech-item">
-          <div class="tech-header">
-            <span class="pixel-label">{tech.name}</span>
-            <span class="pixel-body text-accent-blue">{tech.level}%</span>
-          </div>
-          <div class="tech-bar-bg">
-            <div
-              id="tech-bar-{index}"
-              class="tech-bar-fill"
-              style="width: {tech.level}%"
-            ></div>
-          </div>
-        </div>
-      {/each}
-    </div>
-  </div>
 
   <!-- CTA -->
   <div class="about-cta">
@@ -150,69 +100,6 @@
     margin-bottom: var(--spacing-3xl);
   }
 
-  /* Tech Stack */
-  .tech-stack {
-    margin-top: var(--spacing-4xl);
-    padding: var(--spacing-xl);
-    background: var(--bg-secondary);
-    border: var(--border-pixel) solid var(--border-light);
-    border-radius: var(--radius-md);
-  }
-
-  .tech-title {
-    font-size: 14px;
-    color: var(--accent-blue);
-    margin-bottom: var(--spacing-lg);
-    text-align: center;
-  }
-
-  .tech-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-lg);
-  }
-
-  .tech-item {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-
-  .tech-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .tech-header .pixel-label {
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
-
-  .tech-header .pixel-body {
-    font-size: 16px;
-    font-weight: bold;
-  }
-
-  .tech-bar-bg {
-    height: 12px;
-    background: var(--bg-primary);
-    border: 2px solid var(--border-pixel);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-  }
-
-  .tech-bar-fill {
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      var(--accent-blue) 0%,
-      var(--accent-green) 100%
-    );
-    transform-origin: left;
-    box-shadow: 0 0 10px var(--accent-blue);
-  }
-
   /* CTA */
   .about-cta {
     margin-top: var(--spacing-4xl);
@@ -227,10 +114,6 @@
       text-shadow:
         2px 2px 0 var(--accent-green),
         4px 4px 0 var(--bg-secondary);
-    }
-
-    .tech-grid {
-      grid-template-columns: 1fr;
     }
   }
 </style>
