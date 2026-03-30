@@ -4,7 +4,7 @@
     color = 'currentColor', 
     class: className = '' 
   }: {
-    name: 'sword' | 'shield' | 'chevron';
+    name: 'sword' | 'shield' | 'chevron' | 'tome';
     color?: string;
     class?: string;
   } = $props();
@@ -27,5 +27,8 @@
   {:else if name === 'chevron'}
     <!-- Pixel chevron pointing right -->
     <path d="M4 2 h4 v4 h4 v4 h-4 v4 h-4 v-4 h4 v-4 h-4 Z" />
+  {:else if name === 'tome'}
+    <!-- Pixel art true magic tome with a ribbon and star -->
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M3 3 h4 v1 h-4 Z M2 4 h1 v1 h-1 Z M1 5 h1 v7 h-1 Z M2 12 h1 v1 h-1 Z M3 13 h4 v1 h-4 Z M9 3 h4 v1 h-4 Z M13 4 h1 v1 h-1 Z M14 5 h1 v7 h-1 Z M13 12 h1 v1 h-1 Z M9 13 h4 v1 h-4 Z M7 4 h2 v10 h-2 Z M7 14 h1 v2 h-1 Z M8 14 h1 v1 h-1 Z M3 6 h3 v1 h-3 Z M3 8 h3 v1 h-3 Z M3 10 h3 v1 h-3 Z M11 6 h1 v1 h-1 Z M10 7 h3 v1 h-3 Z M11 8 h1 v1 h-1 Z M10 10 h2 v1 h-2 Z" />
   {/if}
 </svg>
