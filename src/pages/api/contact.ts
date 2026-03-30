@@ -1,5 +1,8 @@
 import type { APIRoute } from 'astro';
 
+// Mark this endpoint as server-rendered (required for POST requests)
+export const prerender = false;
+
 // Email template function
 function createEmailHtml(data: {
   name: string;
@@ -117,12 +120,13 @@ function sanitizeInput(input: string): string {
 export const POST: APIRoute = async ({ request }) => {
   try {
     // Get environment variables
+    // In dev: uses .env file via import.meta.env
+    // In production: uses Cloudflare environment variables
     const RECIPIENT_EMAIL = import.meta.env.RECIPIENT_EMAIL;
-    const FROM_EMAIL = import.meta.env.FROM_EMAIL || 'noreply@oredrok.dev';
+    const FROM_EMAIL = import.meta.env.FROM_EMAIL || 'info@oredrok.dev';
 
     // Check if email is configured
     if (!RECIPIENT_EMAIL) {
-      console.error('RECIPIENT_EMAIL not configured');
       return new Response(
         JSON.stringify({
           success: false,
@@ -215,29 +219,39 @@ export const POST: APIRoute = async ({ request }) => {
       ],
     };
 
-    // Send via MailChannels
-    const mailChannelsResponse = await fetch(
-      'https://api.mailchannels.net/tx/v1/send',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(emailPayload),
-      }
-    );
+    // Check if we're in development mode
+    const isDev = import.meta.env.DEV;
 
-    if (!mailChannelsResponse.ok) {
-      const errorText = await mailChannelsResponse.text();
-      console.error('MailChannels error:', errorText);
-
-      return new Response(
-        JSON.stringify({
-          success: false,
-          message: 'Failed to send email. Please try again later or contact me directly.'
-        }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
+    if (isDev) {
+      // In development, just log the email instead of sending
+      console.log('📧 DEV MODE: Contact form submission received');
+      console.log(`From: ${sanitizedData.name} <${sanitizedData.email}>`);
+      console.log(`Project: ${sanitizedData.projectType || 'Not specified'} | Budget: ${sanitizedData.budget || 'Not specified'}`);
+    } else {
+      // Production: Send via MailChannels
+      const mailChannelsResponse = await fetch(
+        'https://api.mailchannels.net/tx/v1/send',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(emailPayload),
+        }
       );
+
+      if (!mailChannelsResponse.ok) {
+        const errorText = await mailChannelsResponse.text();
+        console.error('MailChannels error:', errorText);
+
+        return new Response(
+          JSON.stringify({
+            success: false,
+            message: 'Failed to send email. Please try again later or contact me directly.'
+          }),
+          { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
     }
 
     // Success response
