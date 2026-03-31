@@ -34,10 +34,10 @@
 
     try {
       // Get worker URL from environment variable or use default for local dev
-      const workerUrl = import.meta.env.PUBLIC_WORKER_URL || 'http://localhost:8788/contact';
+      const workerUrl = import.meta.env.PUBLIC_WORKER_URL || 'http://localhost:8788';
 
       // Send form data to Email Worker
-      const response = await fetch(workerUrl, {
+      const response = await fetch(`${workerUrl}/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
