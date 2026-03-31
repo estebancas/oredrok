@@ -1,0 +1,20 @@
+name = "oredrok-email-worker"
+main = "src/worker.ts"
+compatibility_date = "2026-03-15"
+compatibility_flags = ["nodejs_compat"]
+
+# Email sending binding - this is the key feature that requires a Worker
+[[send_email]]
+binding = "EMAIL"
+# Note: You need to configure Email Routing in Cloudflare Dashboard first
+# Domain > Email > Email Routing > Enable Email Routing
+
+# Environment variables for email configuration
+[vars]
+FROM_EMAIL = "info@oredrok.dev"
+RECIPIENT_EMAIL = "estcascor94@gmail.com"
+
+# Local development configuration
+# Emails in local dev are saved to .wrangler/tmp/email/*.eml
+[dev]
+port = 8788

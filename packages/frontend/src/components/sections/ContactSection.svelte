@@ -33,8 +33,11 @@
     isError = false;
 
     try {
-      // Send form data to Cloudflare Pages Function
-      const response = await fetch('/api/contact', {
+      // Get worker URL from environment variable or use default for local dev
+      const workerUrl = import.meta.env.PUBLIC_WORKER_URL || 'http://localhost:8788/contact';
+
+      // Send form data to Email Worker
+      const response = await fetch(workerUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
