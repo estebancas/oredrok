@@ -3,11 +3,10 @@ main = "src/worker.ts"
 compatibility_date = "2026-03-15"
 compatibility_flags = ["nodejs_compat"]
 
-# Email sending binding - this is the key feature that requires a Worker
+# Email sending binding
+# The binding name (SEB) will be available in env.SEB
 [[send_email]]
-binding = "EMAIL"
-# Note: You need to configure Email Routing in Cloudflare Dashboard first
-# Domain > Email > Email Routing > Enable Email Routing
+name = "SEB"
 
 # Environment variables for email configuration
 [vars]

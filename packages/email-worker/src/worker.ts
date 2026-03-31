@@ -2,7 +2,7 @@ import { EmailMessage } from 'cloudflare:email';
 import { createMimeMessage } from 'mimetext';
 
 interface Env {
-	EMAIL: any;
+	SEB: any; // Send Email Binding
 	RECIPIENT_EMAIL: string;
 	FROM_EMAIL: string;
 }
@@ -27,129 +27,7 @@ function sanitizeInput(input: string): string {
 		.slice(0, 5000); // Limit length
 }
 
-// Create HTML email template
-function createEmailHTML(data: ContactFormData, ipAddress: string): string {
-	return `
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style>
-		body {
-			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-			line-height: 1.6;
-			color: #333;
-			background-color: #f4f4f4;
-			margin: 0;
-			padding: 0;
-		}
-		.container {
-			max-width: 600px;
-			margin: 20px auto;
-			background-color: #ffffff;
-			border-radius: 8px;
-			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-			overflow: hidden;
-		}
-		.header {
-			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-			color: white;
-			padding: 30px;
-			text-align: center;
-		}
-		.header h1 {
-			margin: 0;
-			font-size: 24px;
-		}
-		.content {
-			padding: 30px;
-		}
-		.field {
-			margin-bottom: 20px;
-		}
-		.field-label {
-			font-weight: bold;
-			color: #555;
-			display: block;
-			margin-bottom: 5px;
-			font-size: 14px;
-			text-transform: uppercase;
-			letter-spacing: 0.5px;
-		}
-		.field-value {
-			color: #333;
-			font-size: 16px;
-			padding: 10px;
-			background-color: #f8f9fa;
-			border-left: 3px solid #667eea;
-			white-space: pre-wrap;
-			word-wrap: break-word;
-		}
-		.footer {
-			background-color: #f8f9fa;
-			padding: 20px;
-			text-align: center;
-			font-size: 12px;
-			color: #666;
-			border-top: 1px solid #e9ecef;
-		}
-		.meta-info {
-			margin-top: 30px;
-			padding-top: 20px;
-			border-top: 2px solid #e9ecef;
-			font-size: 13px;
-			color: #666;
-		}
-	</style>
-</head>
-<body>
-	<div class="container">
-		<div class="header">
-			<h1>📧 New Contact Form Submission</h1>
-		</div>
-		<div class="content">
-			<div class="field">
-				<span class="field-label">Name</span>
-				<div class="field-value">${sanitizeInput(data.name)}</div>
-			</div>
-			<div class="field">
-				<span class="field-label">Email</span>
-				<div class="field-value">${sanitizeInput(data.email)}</div>
-			</div>
-			${data.projectType ? `
-			<div class="field">
-				<span class="field-label">Project Type</span>
-				<div class="field-value">${sanitizeInput(data.projectType)}</div>
-			</div>
-			` : ''}
-			${data.budget ? `
-			<div class="field">
-				<span class="field-label">Budget</span>
-				<div class="field-value">${sanitizeInput(data.budget)}</div>
-			</div>
-			` : ''}
-			<div class="field">
-				<span class="field-label">Message</span>
-				<div class="field-value">${sanitizeInput(data.message)}</div>
-			</div>
-			<div class="meta-info">
-				<strong>Submission Details:</strong><br>
-				IP Address: ${ipAddress}<br>
-				Timestamp: ${new Date().toISOString()}<br>
-				Terms Agreed: ${data.agreedToTerms ? 'Yes' : 'No'}
-			</div>
-		</div>
-		<div class="footer">
-			This email was sent from your portfolio contact form at oredrok.dev
-		</div>
-	</div>
-</body>
-</html>
-`;
-}
-
-// Create plain text version
+// Create plain text email
 function createEmailText(data: ContactFormData, ipAddress: string): string {
 	return `
 NEW CONTACT FORM SUBMISSION
@@ -253,12 +131,6 @@ async function handlePost(request: Request, env: Env): Promise<Response> {
 		msg.setRecipient(env.RECIPIENT_EMAIL);
 		msg.setSubject(`New Contact Form: ${sanitizeInput(formData.name)}`);
 
-		// Add HTML version
-		msg.addMessage({
-			contentType: 'text/html',
-			data: createEmailHTML(formData, ipAddress),
-		});
-
 		// Add plain text version
 		msg.addMessage({
 			contentType: 'text/plain',
@@ -272,8 +144,25 @@ async function handlePost(request: Request, env: Env): Promise<Response> {
 			msg.asRaw()
 		);
 
-		// Send email (in local dev, this writes to .eml file)
-		await env.EMAIL.send(message);
+		// Send email using SEB binding
+		try {
+			await env.SEB.send(message);
+		} catch (e) {
+			console.error('❌ Error sending email:', e);
+			return new Response(
+				JSON.stringify({
+					error: 'Failed to send email',
+					details: e instanceof Error ? e.message : 'Unknown error',
+				}),
+				{
+					status: 500,
+					headers: {
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Origin': '*',
+					},
+				}
+			);
+		}
 
 		console.log('✅ Email sent successfully');
 		console.log('From:', formData.email);
@@ -320,7 +209,12 @@ export default {
 
 		// Only handle /contact endpoint
 		if (url.pathname !== '/contact') {
-			return new Response('Not Found', { status: 404 });
+			return new Response('Not Found', {
+				status: 404,
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+				},
+			});
 		}
 
 		// Handle OPTIONS (CORS preflight)
@@ -338,6 +232,7 @@ export default {
 			status: 405,
 			headers: {
 				'Allow': 'POST, OPTIONS',
+				'Access-Control-Allow-Origin': '*',
 			},
 		});
 	},
