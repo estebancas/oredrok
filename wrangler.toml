@@ -6,6 +6,13 @@ compatibility_flags = ["nodejs_compat"]
 [placement]
 mode = "smart"
 
+# Environment variables for email configuration
+# Note: Email Workers binding must be configured in Cloudflare Pages dashboard
+# Settings > Functions > Bindings > Add binding > Email Sending (name: EMAIL)
+[vars]
+FROM_EMAIL = "info@oredrok.dev"
+RECIPIENT_EMAIL = "estcascor94@gmail.com"
+
 # Uncomment below if you need session storage
 # [[kv_namespaces]]
 # binding = "SESSION"
