@@ -7,6 +7,13 @@ compatibility_flags = ["nodejs_compat"]
 mode = "smart"
 
 # Environment variables
+# IMPORTANT: For Astro PUBLIC_* variables, you need to:
+# 1. Set PUBLIC_WORKER_URL in Cloudflare Pages dashboard as a secret/variable
+# 2. Or use wrangler pages deploy with --env flag
+#
+# The [vars] section below is for server-side Pages Functions only,
+# not for client-side Astro environment variables
+#
 # [vars]
-# Email worker URL will be set after worker deployment
-# WORKER_URL = ""
+# Example server-side variable
+# SERVER_VAR = "value"
