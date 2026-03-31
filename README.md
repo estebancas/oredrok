@@ -1,6 +1,15 @@
 # Oredrok Portfolio - RPG Character Sheet
 
-A Final Fantasy Tactics-inspired portfolio website featuring pixel art aesthetics, sick animations, and RPG-themed UI components.
+A Final Fantasy Tactics-inspired portfolio website featuring pixel art aesthetics, sick animations, and RPG-themed UI components. Built as a **Yarn workspace monorepo** with separate frontend and email worker packages.
+
+## 🏗️ Architecture
+
+This project uses a **monorepo structure** to properly separate concerns:
+
+- **`@oredrok/frontend`** - Astro-based portfolio (Cloudflare Pages)
+- **`@oredrok/email-worker`** - Email handling worker (Cloudflare Worker with `[[send_email]]` binding)
+
+**Why monorepo?** Cloudflare Pages Functions cannot use the `[[send_email]]` binding - only Workers can. The monorepo allows us to have a dedicated Worker for email functionality while keeping the frontend as a static site.
 
 ## 🎮 Features
 
@@ -16,73 +25,137 @@ A Final Fantasy Tactics-inspired portfolio website featuring pixel art aesthetic
   - Glow effects and shimmer animations
 - **Dark Blue Aesthetic**: Custom color palette with midnight blue tones and gold/amber accents
 - **Fully Responsive**: Mobile-first design with collapsible navigation
+- **Contact Form**: Integrated with Cloudflare Email Workers
 - **Modern Tech Stack**: Astro + Svelte 5 (Runes) + Tailwind CSS v3 + GSAP + Lenis
 
 ## 🛠️ Tech Stack
 
+### Frontend
 - **Framework**: Astro 5
 - **Components**: Svelte 5 with Runes API (`$props`, `$state`, `$derived`)
 - **Animations**: GSAP (with ScrollTrigger, TextPlugin)
 - **Smooth Scroll**: Lenis
 - **Styling**: Tailwind CSS v3 + CSS Custom Properties
 - **TypeScript**: Full type safety throughout
+- **Deployment**: Cloudflare Pages
+
+### Email Worker
+- **Runtime**: Cloudflare Workers
+- **Email API**: Cloudflare Email Workers
+- **Email Formatting**: mimetext
+- **TypeScript**: Full type safety
+
+### Development
+- **Package Manager**: Yarn Workspaces
+- **Build Tool**: Vite (via Astro)
 
 ## 📦 Project Structure
 
 ```
-oredrok-portfolio/
-├── src/
-│   ├── components/
-│   │   ├── rpg/              # Reusable RPG UI components
-│   │   │   ├── RPGPanel.svelte
-│   │   │   ├── RPGMenu.svelte
-│   │   │   ├── StatBar.svelte
-│   │   │   ├── EquipmentSlot.svelte
-│   │   │   └── PixelAvatar.svelte
-│   │   └── layout/
-│   │       ├── PageLayout.astro
-│   │       └── LeftPanel.svelte
-│   ├── lib/
-│   │   ├── animations.ts     # 20+ GSAP animation utilities
-│   │   └── lenis.ts          # Smooth scroll setup
-│   ├── pages/
-│   │   └── index.astro       # Character sheet homepage
-│   ├── styles/
-│   │   ├── global.css        # CSS variables + Tailwind
-│   │   └── fonts.css         # Pixel font imports
-│   └── assets/
-│       ├── avatar/           # Avatar sprites
-│       └── icons/            # Tech stack icons
-├── public/
-│   ├── avatar-placeholder.svg
-│   └── icons/
-└── tailwind.config.js
+oredrok-portfolio/                    # Monorepo root
+├── packages/
+│   ├── frontend/                     # Astro frontend package
+│   │   ├── src/
+│   │   │   ├── components/
+│   │   │   │   ├── rpg/             # Reusable RPG UI components
+│   │   │   │   │   ├── RPGPanel.svelte
+│   │   │   │   │   ├── RPGMenu.svelte
+│   │   │   │   │   ├── StatBar.svelte
+│   │   │   │   │   ├── EquipmentSlot.svelte
+│   │   │   │   │   └── PixelAvatar.svelte
+│   │   │   │   ├── sections/        # Page sections (Hero, About, Projects, Contact)
+│   │   │   │   ├── ui/              # UI components (Buttons, Modals, etc.)
+│   │   │   │   └── layout/
+│   │   │   │       ├── PageLayout.astro
+│   │   │   │       └── LeftPanel.svelte
+│   │   │   ├── content/
+│   │   │   │   ├── blog/            # Blog posts (Markdown)
+│   │   │   │   └── projects/        # Project case studies
+│   │   │   ├── lib/
+│   │   │   │   ├── animations.ts    # 20+ GSAP animation utilities
+│   │   │   │   └── lenis.ts         # Smooth scroll setup
+│   │   │   ├── pages/
+│   │   │   │   └── index.astro      # Character sheet homepage
+│   │   │   ├── styles/
+│   │   │   │   ├── global.css       # CSS variables + Tailwind
+│   │   │   │   └── fonts.css        # Pixel font imports
+│   │   │   └── assets/
+│   │   │       ├── avatar/          # Avatar sprites
+│   │   │       └── icons/           # Tech stack icons
+│   │   ├── public/
+│   │   │   ├── avatar-placeholder.svg
+│   │   │   └── icons/
+│   │   ├── astro.config.mjs
+│   │   ├── wrangler.toml
+│   │   ├── tailwind.config.js
+│   │   └── package.json
+│   │
+│   └── email-worker/                 # Email Worker package
+│       ├── src/
+│       │   └── worker.ts            # Worker entry point
+│       ├── wrangler.toml            # Worker config with [[send_email]]
+│       └── package.json
+│
+├── package.json                      # Root workspace config
+├── yarn.lock
+├── DEPLOYMENT.md                     # Detailed deployment guide
+└── README.md                         # This file
 ```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18.20+ or 20.3+ or 22+
-- npm, pnpm, or yarn
+- Node.js 18+ or 22+
+- Yarn package manager
 
 ### Installation
 
 ```bash
-# Install dependencies
-npm install
+# Clone the repository
+git clone https://github.com/estebancas/oredrok-portfolio.git
+cd oredrok-portfolio
 
-# Start development server
-npm run dev
+# Install all dependencies (monorepo)
+yarn install
 
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+# Set up environment files
+cp packages/frontend/.env.example packages/frontend/.env
+cp packages/email-worker/.env.example packages/email-worker/.env
 ```
 
-The development server will start at `http://localhost:4321/`
+### Development
+
+Run both services concurrently:
+
+```bash
+# Terminal 1 - Frontend (http://localhost:4321)
+yarn dev
+
+# Terminal 2 - Email Worker (http://localhost:8788)
+yarn dev:worker
+```
+
+### Available Commands
+
+```bash
+# Development
+yarn dev                    # Start frontend dev server
+yarn dev:worker            # Start email worker dev server
+
+# Build
+yarn build                 # Build all packages
+yarn build:frontend        # Build frontend only
+yarn build:worker          # Build email worker only
+
+# Deploy
+yarn deploy               # Deploy all packages
+yarn deploy:frontend      # Deploy frontend to Pages
+yarn deploy:worker        # Deploy email worker
+
+# Preview
+yarn preview              # Preview frontend production build
+```
 
 ## 🎨 Component Library
 
@@ -217,98 +290,63 @@ Adjust animation speeds in `src/styles/global.css`:
 ### Color Theme
 All colors are CSS custom properties in `global.css` - easily customizable!
 
-## 🌐 Deployment to Cloudflare Pages
+## 🌐 Deployment
 
-This project is configured for deployment to Cloudflare Pages with SSR support.
+This project uses a **coordinated deployment** strategy for the monorepo:
 
-### Option 1: Direct Upload (Recommended for first deployment)
-
-```bash
-# 1. Build the project
-npm run build
-
-# 2. Deploy to Cloudflare Pages
-npx wrangler pages deploy ./dist --project-name=oredrok-portfolio
-```
-
-### Option 2: Git Integration (Recommended for production)
-
-1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)
-2. Navigate to **Workers & Pages** → **Create** → **Connect to Git**
-3. Select your repository
-4. Configure build settings:
-   - **Build command**: `npm run build`
-   - **Build output directory**: `dist`
-   - **Framework preset**: Astro
-5. Click **Save and Deploy**
-
-Every push to your main branch will automatically trigger a new deployment, and pull requests will get preview URLs.
-
-### Configuration
-
-The `wrangler.jsonc` file includes:
-- **Smart Placement**: Automatically optimizes function execution location
-- **Node.js compatibility**: Required for SSR features
-- **Compatibility date**: Set to latest standards
-
-### Local Preview with Wrangler
-
-Test your production build locally with the Cloudflare runtime:
+### Quick Deploy
 
 ```bash
-# Build the project
-npm run build
+# Deploy both packages
+yarn deploy
 
-# Preview with Wrangler
-npx wrangler pages dev ./dist
+# Or deploy individually
+yarn deploy:worker        # Deploy email worker first
+yarn deploy:frontend      # Deploy frontend (with worker URL)
 ```
 
-### Environment Variables & Secrets
+### Detailed Deployment Guide
 
-For production secrets:
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for comprehensive instructions including:
+- Email Worker setup with Email Routing
+- Cloudflare Pages configuration
+- Environment variable setup
+- Monitoring and debugging
+- Custom domain configuration
 
-```bash
-# Add a secret
-echo "secret-value" | npx wrangler pages secret put SECRET_KEY --project-name=oredrok-portfolio
+### Environment Variables
 
-# List all secrets
-npx wrangler pages secret list --project-name=oredrok-portfolio
-
-# Delete a secret
-npx wrangler pages secret delete SECRET_KEY --project-name=oredrok-portfolio
+**Frontend** (`packages/frontend/.env`):
+```env
+PUBLIC_WORKER_URL=http://localhost:8788/contact  # Local
+# or: https://your-worker.workers.dev/contact    # Production
 ```
 
-For local development, create a `.dev.vars` file (never commit this):
-
-```bash
-# .dev.vars
-SECRET_KEY="local-secret-key"
-API_TOKEN="dev-token-123"
+**Email Worker** (`packages/email-worker/wrangler.toml`):
+```toml
+[vars]
+FROM_EMAIL = "info@oredrok.dev"
+RECIPIENT_EMAIL = "your-email@example.com"
 ```
 
-### Deployment Logs
+## ✅ Features Complete
 
-Monitor your deployment:
+**Implemented:**
+- ✅ Foundation setup (Astro + Svelte 5 + Tailwind)
+- ✅ All core RPG components with animations
+- ✅ Character sheet homepage
+- ✅ Comprehensive animation library
+- ✅ Lenis smooth scroll integration
+- ✅ Responsive mobile design
+- ✅ Content collections for blog and projects
+- ✅ Contact form with Cloudflare Email Workers
+- ✅ Monorepo architecture with separate email worker
+- ✅ Full deployment setup for Cloudflare Pages + Workers
 
-```bash
-npx wrangler pages deployment tail --project-name=oredrok-portfolio
-```
-
-## 🚧 Phase 1 Complete!
-
-✅ **Completed:**
-- Foundation setup (Astro + Svelte 5 + Tailwind)
-- All core RPG components with animations
-- Character sheet homepage
-- Comprehensive animation library
-- Lenis smooth scroll integration
-- Responsive mobile design
-
-**Next Phases:**
-- **Phase 2**: Content collections for missions/expeditions
-- **Phase 3**: Quest board pages with filtering
-- **Phase 4**: Contact form with backend
-- **Phase 5**: Page transitions, polish, deployment
+**Future Enhancements:**
+- 🔜 GitHub Actions for automated deployment
+- 🔜 Page transitions and polish
+- 🔜 Web Analytics integration
 
 ## 📄 License
 

@@ -1,26 +1,20 @@
 {
-  "name": "oredrok-portfolio",
-  "type": "module",
+  "name": "oredrok-portfolio-monorepo",
+  "private": true,
   "version": "0.0.1",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/check": "^0.9.6",
-    "@astrojs/cloudflare": "^12.6.13",
-    "@astrojs/svelte": "^7.2.5",
-    "@astrojs/tailwind": "^6.0.2",
-    "astro": "^5.17.1",
-    "gsap": "^3.14.2",
-    "lenis": "^1.3.18-dev.0",
-    "mimetext": "^3.0.28",
-    "svelte": "^5.53.6",
-    "tailwindcss": "^3.4.19"
-  },
-  "devDependencies": {
-    "typescript": "^5.9.3"
+    "dev": "yarn workspace @oredrok/frontend dev",
+    "dev:worker": "yarn workspace @oredrok/email-worker dev",
+    "build": "yarn workspaces foreach -pt run build",
+    "build:frontend": "yarn workspace @oredrok/frontend build",
+    "build:worker": "yarn workspace @oredrok/email-worker build",
+    "deploy": "yarn build && yarn deploy:frontend && yarn deploy:worker",
+    "deploy:frontend": "yarn workspace @oredrok/frontend deploy",
+    "deploy:worker": "yarn workspace @oredrok/email-worker deploy",
+    "preview": "yarn workspace @oredrok/frontend preview"
   }
 }

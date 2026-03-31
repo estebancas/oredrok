@@ -174,21 +174,20 @@ This email was sent from your portfolio contact form at oredrok.dev
 `;
 }
 
-// Pages Function: Handle OPTIONS (CORS preflight)
-export const onRequestOptions: PagesFunction = async () => {
+// Handle CORS preflight
+function handleOptions(): Response {
 	return new Response(null, {
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Access-Control-Allow-Methods': 'POST, OPTIONS',
 			'Access-Control-Allow-Headers': 'Content-Type',
+			'Access-Control-Max-Age': '86400',
 		},
 	});
-};
+}
 
-// Pages Function: Handle POST requests
-export const onRequestPost: PagesFunction<Env> = async (context) => {
-	const { request, env } = context;
-
+// Handle POST requests
+async function handlePost(request: Request, env: Env): Promise<Response> {
 	try {
 		// Parse request body
 		const formData: ContactFormData = await request.json();
@@ -312,4 +311,34 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 			}
 		);
 	}
+}
+
+// Main worker fetch handler
+export default {
+	async fetch(request: Request, env: Env): Promise<Response> {
+		const url = new URL(request.url);
+
+		// Only handle /contact endpoint
+		if (url.pathname !== '/contact') {
+			return new Response('Not Found', { status: 404 });
+		}
+
+		// Handle OPTIONS (CORS preflight)
+		if (request.method === 'OPTIONS') {
+			return handleOptions();
+		}
+
+		// Handle POST requests
+		if (request.method === 'POST') {
+			return handlePost(request, env);
+		}
+
+		// Method not allowed
+		return new Response('Method Not Allowed', {
+			status: 405,
+			headers: {
+				'Allow': 'POST, OPTIONS',
+			},
+		});
+	},
 };

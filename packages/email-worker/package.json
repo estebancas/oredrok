@@ -1,0 +1,18 @@
+{
+  "name": "@oredrok/email-worker",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev src/worker.ts",
+    "build": "echo 'Email worker uses direct TypeScript source'",
+    "deploy": "wrangler deploy src/worker.ts"
+  },
+  "dependencies": {
+    "mimetext": "^3.0.28"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241230.0",
+    "wrangler": "^3.96.0"
+  }
+}
