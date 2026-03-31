@@ -21,6 +21,11 @@
   let submitMessage = $state('');
   let isError = $state(false);
 
+  interface ContactResponse {
+    success: boolean;
+    message: string;
+  }
+
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
     isSubmitting = true;
@@ -28,7 +33,7 @@
     isError = false;
 
     try {
-      // Send form data to Cloudflare Worker
+      // Send form data to Cloudflare Pages Function
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -40,11 +45,11 @@
           projectType: formData.projectType,
           budget: formData.budget,
           message: formData.message,
-          agreeToTerms: formData.agreedToTerms,
+          agreedToTerms: formData.agreedToTerms,
         }),
       });
 
-      const data = await response.json();
+      const data = await response.json() as ContactResponse;
 
       if (!response.ok) {
         throw new Error(data.message || 'Failed to send message');
