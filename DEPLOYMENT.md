@@ -1,135 +1,282 @@
-# Cloudflare Pages Deployment Guide
+# Cloudflare Monorepo Deployment Guide
 
-## Quick Setup (First Time)
-
-### Step 1: Connect to Cloudflare Pages
-
-1. Go to **[Cloudflare Dashboard](https://dash.cloudflare.com/)**
-2. Navigate to **Workers & Pages** (left sidebar)
-3. Click **Create** button
-4. Select **Connect to Git**
-
-### Step 2: Authorize GitHub
-
-1. Select **GitHub** as your Git provider
-2. Click **Connect GitHub**
-3. Authorize Cloudflare to access your GitHub account
-4. Select the repository: **estebancas/oredrok**
-
-### Step 3: Configure Build Settings
-
-Use these exact settings:
-
-```
-Project Name: oredrok-portfolio
-Production branch: main
-```
-
-**Build settings:**
-```
-Framework preset: Astro
-Build command: npm run build
-Build output directory: dist
-Root directory: (leave empty)
-```
-
-**Environment variables (build):**
-- None required for now (add later if needed)
-
-### Step 4: Deploy
-
-1. Click **Save and Deploy**
-2. Wait for the first build (usually 2-3 minutes)
-3. Once complete, you'll get a URL like: `https://oredrok-portfolio.pages.dev`
+This project is structured as a monorepo with two separate packages:
+- **Frontend**: Astro-based portfolio (Cloudflare Pages)
+- **Email Worker**: Cloudflare Worker for handling email submissions
 
 ---
 
-## What You Get Automatically
+## Project Structure
 
-✅ **Production Deployments** - Every push to `main` triggers a deployment
-✅ **Preview Deployments** - Every PR gets a unique preview URL
-✅ **Branch Deployments** - Every branch gets its own URL
-✅ **Automatic Rollbacks** - Easy rollback in dashboard
-✅ **Build Caching** - Faster subsequent builds
-✅ **Global CDN** - Your site runs on Cloudflare's edge network
-✅ **Analytics** - Free web analytics built-in
-
----
-
-## Branch Strategy
-
-### Production
-- **Branch:** `main`
-- **URL:** `https://oredrok-portfolio.pages.dev` (or custom domain)
-- **Triggers:** Push to `main` or merge PR
-
-### Preview Deployments
-- **Branch:** Any branch (e.g., `feat/cloudflare-adapter`)
-- **URL:** `https://[commit-hash].oredrok-portfolio.pages.dev`
-- **Triggers:** Push to any branch
-
-### Pull Request Previews
-- **Triggers:** Opening/updating a PR
-- **URL:** Shown as comment on the PR
-- **Benefit:** Review changes before merging
+```
+oredrok-portfolio/
+├── packages/
+│   ├── frontend/           # Astro Pages frontend
+│   │   ├── src/
+│   │   ├── public/
+│   │   ├── wrangler.toml
+│   │   └── package.json
+│   │
+│   └── email-worker/       # Cloudflare Email Worker
+│       ├── src/
+│       │   └── worker.ts
+│       ├── wrangler.toml
+│       └── package.json
+│
+├── package.json            # Root workspace config
+└── yarn.lock
+```
 
 ---
 
-## Merge Your Feature Branch
+## Local Development
 
-Once Cloudflare is set up, merge your feature branch:
+### Prerequisites
+- Node.js 18+ or 22+
+- Yarn package manager
+
+### Setup
+
+1. **Install dependencies:**
+   ```bash
+   yarn install
+   ```
+
+2. **Copy environment files:**
+   ```bash
+   # Frontend
+   cp packages/frontend/.env.example packages/frontend/.env
+
+   # Email Worker
+   cp packages/email-worker/.env.example packages/email-worker/.env
+   ```
+
+3. **Configure environment variables:**
+
+   Edit `packages/frontend/.env`:
+   ```env
+   PUBLIC_WORKER_URL=http://localhost:8788/contact
+   ```
+
+   Edit `packages/email-worker/.env` (or set in wrangler.toml):
+   ```env
+   FROM_EMAIL=info@oredrok.dev
+   RECIPIENT_EMAIL=your-email@example.com
+   ```
+
+### Run Development Servers
+
+**Option 1: Run both services (recommended)**
+```bash
+# Terminal 1 - Frontend
+yarn dev
+
+# Terminal 2 - Email Worker
+yarn dev:worker
+```
+
+**Option 2: Run individually**
+```bash
+# Frontend only
+yarn workspace @oredrok/frontend dev
+
+# Email Worker only
+yarn workspace @oredrok/email-worker dev
+```
+
+- Frontend: http://localhost:4321
+- Email Worker: http://localhost:8788
+
+---
+
+## Email Worker Setup
+
+### 1. Enable Email Routing (Required)
+
+Before deploying the email worker, you must enable Email Routing in Cloudflare:
+
+1. Go to **Cloudflare Dashboard** → Your Domain
+2. Navigate to **Email** → **Email Routing**
+3. Click **Enable Email Routing**
+4. Follow the setup wizard to verify your domain
+5. Add a destination address (where emails will be sent)
+6. Create a catch-all rule or specific routing rules
+
+### 2. Test Email Worker Locally
+
+The email worker will save emails as `.eml` files in local development:
+```bash
+cd packages/email-worker
+yarn dev
+
+# Emails will be saved to:
+# .wrangler/tmp/email/*.eml
+```
+
+---
+
+## Production Deployment
+
+### Part 1: Deploy Email Worker
+
+1. **Navigate to email worker directory:**
+   ```bash
+   cd packages/email-worker
+   ```
+
+2. **Deploy the worker:**
+   ```bash
+   yarn deploy
+   # or: wrangler deploy src/worker.ts
+   ```
+
+3. **Note the worker URL** (e.g., `https://oredrok-email-worker.your-subdomain.workers.dev`)
+
+4. **Update environment variables in Cloudflare Dashboard:**
+   - Go to **Workers & Pages** → `oredrok-email-worker` → **Settings** → **Variables**
+   - Add:
+     - `FROM_EMAIL`: `info@oredrok.dev`
+     - `RECIPIENT_EMAIL`: `your-email@example.com`
+
+### Part 2: Deploy Frontend (Cloudflare Pages)
+
+#### First Time Setup
+
+1. **Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)**
+2. Navigate to **Workers & Pages** → **Create** → **Connect to Git**
+3. Select **GitHub** and authorize
+4. Select your repository
+
+5. **Configure Build Settings:**
+   ```
+   Project Name: oredrok-portfolio
+   Production branch: main
+   Build command: cd packages/frontend && yarn build
+   Build output directory: packages/frontend/dist
+   Root directory: (leave empty)
+   ```
+
+6. **Add Environment Variables:**
+   - Go to **Settings** → **Environment variables**
+   - Add `PUBLIC_WORKER_URL`: (your worker URL from Part 1)
+     - Example: `https://oredrok-email-worker.your-subdomain.workers.dev/contact`
+
+7. **Click Save and Deploy**
+
+#### Subsequent Deployments
+
+Frontend automatically deploys when you push to `main` branch.
+
+To deploy manually:
+```bash
+cd packages/frontend
+yarn deploy
+# or: wrangler pages deploy dist
+```
+
+---
+
+## Environment Variables Summary
+
+### Frontend (packages/frontend/.env)
+```env
+# Local development
+PUBLIC_WORKER_URL=http://localhost:8788/contact
+
+# Production (set in Cloudflare Pages Dashboard)
+PUBLIC_WORKER_URL=https://oredrok-email-worker.your-subdomain.workers.dev/contact
+```
+
+### Email Worker (packages/email-worker/.env or wrangler.toml)
+```env
+FROM_EMAIL=info@oredrok.dev
+RECIPIENT_EMAIL=your-email@example.com
+```
+
+---
+
+## Yarn Workspace Commands
 
 ```bash
-# Switch to main
-git checkout main
+# Install all dependencies
+yarn install
 
-# Pull latest
-git pull origin main
+# Development
+yarn dev                    # Run frontend dev server
+yarn dev:worker            # Run email worker dev server
 
-# Merge your feature branch
-git merge feat/cloudflare-adapter
+# Build
+yarn build                 # Build all packages
+yarn build:frontend        # Build frontend only
+yarn build:worker          # Build email worker only
 
-# Push to trigger production deployment
-git push origin main
+# Deploy
+yarn deploy               # Deploy all packages (requires prior build)
+yarn deploy:frontend      # Deploy frontend only
+yarn deploy:worker        # Deploy email worker only
+
+# Other
+yarn preview              # Preview frontend build locally
 ```
 
 ---
 
-## Custom Domain (Optional)
+## Deployment Strategy
 
-1. In Cloudflare Pages project settings
-2. Go to **Custom domains**
-3. Click **Set up a custom domain**
-4. Enter your domain (e.g., `oredrok.com`)
-5. Follow DNS instructions
-6. SSL automatically provisioned
+This project uses **coordinated deployment**:
+1. Deploy email worker first (to get the worker URL)
+2. Update frontend environment variables with worker URL
+3. Deploy frontend
 
----
+### Automated Deployment (Future Enhancement)
 
-## Environment Variables & Secrets
-
-### Add via Dashboard:
-1. Project Settings → **Environment variables**
-2. Add variables for Production/Preview
-3. Click **Save**
-
-### Or via CLI:
-```bash
-echo "secret-value" | npx wrangler pages secret put SECRET_KEY --project-name=oredrok-portfolio
+You can set up GitHub Actions to automate this:
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: yarn install
+      - run: yarn deploy:worker
+      - run: yarn deploy:frontend
 ```
 
 ---
 
-## Monitoring & Logs
+## Monitoring & Debugging
 
-### View Build Logs:
-1. Go to your project in dashboard
-2. Click on any deployment
-3. View build logs and function logs
-
-### Real-time Logs (CLI):
+### View Worker Logs
 ```bash
-npx wrangler pages deployment tail --project-name=oredrok-portfolio
+# Real-time worker logs
+cd packages/email-worker
+wrangler tail
+```
+
+### View Pages Logs
+```bash
+# Real-time pages logs
+cd packages/frontend
+wrangler pages deployment tail --project-name=oredrok-portfolio
+```
+
+### Check Email Worker Status
+```bash
+cd packages/email-worker
+wrangler deployments list
+```
+
+### Local Email Testing
+In local dev, emails are saved as `.eml` files:
+```bash
+# View saved emails
+ls -la packages/email-worker/.wrangler/tmp/email/
 ```
 
 ---
@@ -137,44 +284,51 @@ npx wrangler pages deployment tail --project-name=oredrok-portfolio
 ## Troubleshooting
 
 ### Build Fails
-- Check build logs in dashboard
-- Verify `package.json` scripts work locally
-- Ensure all dependencies are in `package.json` (not just `devDependencies`)
+- Ensure you're using Node 18+ or 22+
+- Run `yarn install` from root to sync dependencies
+- Check that build works locally: `yarn build`
 
-### Functions Don't Work
-- Check compatibility date in `wrangler.jsonc`
-- Verify `nodejs_compat` flag is set
-- Check function logs in dashboard
+### Email Worker Not Receiving Requests
+- Verify `PUBLIC_WORKER_URL` is set correctly in frontend environment
+- Check CORS settings in worker
+- Verify Email Routing is enabled in Cloudflare Dashboard
 
-### Wrong Node Version
-- Cloudflare uses Node 18+ by default
-- To specify: Add `NODE_VERSION` environment variable in dashboard
+### Emails Not Sending
+- Confirm Email Routing is enabled and configured
+- Check worker logs: `wrangler tail`
+- Verify `FROM_EMAIL` matches a verified domain
+- Check environment variables are set in Cloudflare Dashboard
+
+### Yarn Workspace Errors
+- Delete `node_modules` and `yarn.lock`, then run `yarn install`
+- Ensure all `package.json` files have unique names (`@oredrok/frontend`, `@oredrok/email-worker`)
 
 ---
 
-## Useful Commands
+## Custom Domain Setup
 
-```bash
-# Local preview with Cloudflare runtime
-npm run build
-npx wrangler pages dev ./dist
+### Frontend Custom Domain
+1. In Cloudflare Pages project settings
+2. Go to **Custom domains** → **Set up a custom domain**
+3. Enter your domain (e.g., `oredrok.dev`)
+4. SSL automatically provisioned
 
-# View deployments
-npx wrangler pages deployment list --project-name=oredrok-portfolio
-
-# View project info
-npx wrangler pages project list
-```
+### Email Worker Custom Domain
+1. Go to **Workers & Pages** → `oredrok-email-worker` → **Settings** → **Triggers**
+2. Add a custom route or subdomain
+3. Update `PUBLIC_WORKER_URL` in frontend environment
 
 ---
 
 ## Next Steps After Setup
 
-1. ✅ Verify production deployment works
-2. ✅ Test preview deployment by creating a PR
-3. 🔜 Add custom domain (optional)
-4. 🔜 Set up Web Analytics in dashboard
-5. 🔜 Configure any environment variables needed
+1. ✅ Deploy email worker
+2. ✅ Enable Email Routing in Cloudflare
+3. ✅ Deploy frontend with correct worker URL
+4. ✅ Test contact form submission
+5. 🔜 Add custom domain
+6. 🔜 Set up GitHub Actions for automated deployment
+7. 🔜 Configure Web Analytics
 
 ---
 
