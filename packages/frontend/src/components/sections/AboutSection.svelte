@@ -19,7 +19,8 @@
   const equipment = [
     { name: 'AWS', level: 90 },
     { name: 'Docker', level: 85 },
-    { name: 'Kubernetes', level: 80 }
+    { name: 'Kubernetes', level: 80 },
+    { name: 'Cloudflare', level: 80 },
   ];
 
   onMount(() => {

@@ -35,10 +35,21 @@
     try {
       // Get worker URL from environment variable or use production default
       // For local dev, set PUBLIC_WORKER_URL in .env file
-      const workerUrl = import.meta.env.PUBLIC_WORKER_URL
-        || (import.meta.env.PROD
-          ? 'https://oredrok-email-worker.estcascor94.workers.dev/contact' // Production worker URL
-          : 'http://localhost:8788/contact'); // Local dev
+      let workerUrl: string;
+      let source = '';
+
+      if (import.meta.env.PUBLIC_WORKER_URL) {
+        source = 'PUBLIC_WORKER_URL';
+        workerUrl = import.meta.env.PUBLIC_WORKER_URL;
+      } else if (import.meta.env.PROD) {
+        source = 'PROD';
+        workerUrl = 'https://oredrok-email-worker.estcascor94.workers.dev/contact';
+      } else {
+        source = 'LOCAL';
+        workerUrl = 'http://localhost:8788/contact';
+      }
+
+      console.log('Worker URL:', workerUrl, 'Source:', source); // Debug log
 
       // Send form data to Email Worker
       const response = await fetch(workerUrl, {
