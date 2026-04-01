@@ -256,7 +256,7 @@
   <div class="contact-footer">
     <p class="pixel-body">
       Or email me directly at
-      <a href="mailto:your@email.com" class="link-accent">your@email.com</a>
+      <a href="mailto:info@oredrok.dev" class="link-accent">info@oredrok.dev</a>
     </p>
     <div class="social-links">
       <a href="https://github.com/estebancas" target="_blank" rel="noopener" class="social-link pixel-cursor">
